@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes informations personnelles{% endblock %}
+
+{% block body %}
+    {% include 'user/menu.html.twig' %}
+    <h1>Mes informations personnelles</h1>
+    <ul>
+        <li><strong>Prénom :</strong> {{ app.user.firstName }}</li>
+        <li><strong>Nom :</strong> {{ app.user.lastName }}</li>
+        <li><strong>Téléphone :</strong> {{ app.user.phoneNumber }}</li>
+        <li><strong>Email :</strong> {{ app.user.email }}</li>
+    </ul>
+{% endblock %}

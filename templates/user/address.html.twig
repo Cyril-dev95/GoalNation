@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon adresse{% endblock %}
+
+{% block body %}
+    {% include 'user/menu.html.twig' %}
+    <h1>Mon adresse</h1>
+    <p>{{ app.user.address }}</p>
+    <a href="{{ path('user_edit_address') }}">Modifier mon adresse</a>
+{% endblock %}

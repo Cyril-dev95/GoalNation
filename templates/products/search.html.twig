@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %} {# Étend le template de base 'base.html.twig' #}
+
+{% block title %}Produits{% endblock %} {# Définit le titre de la page #}
+
+{% block body %} {# Début du bloc 'body' #}
+    {% set sizes = sizes|default([]) %}
+    {% include 'products/filter_form.html.twig' with { 'brands': brands|default([]), 'sizes': sizes } %}
+
+    <h1>Produits</h1> {# Titre de la page #}
+
+    <div class="products" id="products-list"> {# Début de la liste des produits #}
+        {% for product in products %} {# Boucle sur chaque produit #}
+            <div class="product">
+                <h2>{{ product.productName }}</h2>
+                {% if product.imageUrl %}
+                    <img src="{{ asset('images/' ~ product.imageUrl ~ '.webp') }}" alt="{{ product.productName }}" style="max-width: 200px;">
+                {% else %}
+                    <p>Aucune image disponible</p>
+                {% endif %}
+                <p>Taille: 
+                    {% set sizes = product.size|json_encode %}
+                    {{ sizes ? sizes|join(', ') : 'Aucune taille disponible' }}
+                </p>
+                <p>Prix: {{ product.price }}€</p>
+                <p>Marque: {{ product.brand }}</p>
+                <p>Championnat: {{ product.championship }}</p>
+
+                {# Lien vers la page de détails du produit #}
+                <a href="{{ path('app_products_show', { id: product.id }) }}" class="btn btn-secondary">Voir Plus</a>
+
+                {# Lien pour ajouter au panier #}
+                <a href="{{ path('app_cart_add', { id: product.id }) }}" class="btn btn-primary">Ajouter au panier</a>
+            </div>
+        {% else %}
+            <p>Aucun produit trouvé pour les critères sélectionnés.</p>   
+        {% endfor %} {# Fin de la boucle sur les produits #}
+    </div> {# Fin de la liste des produits #}
+{% endblock %} {# Fin du bloc 'body' #}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    {% endblock %}
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ path('app_home') }}">Accueil</a></li>
+            <li class="nav-item">
+                <a href="#" id="homme-link">Homme</a>
+                <ul class="sub-nav" id="homme-sub-nav" style="display: none;">
+                    <li><a href="{{ path('app_products_homme_maillots') }}">Maillots</a></li> 
+                    <li><a href="{{ path('app_products_homme_shorts') }}">Shorts</a></li>                   
+                    <li><a href="{{ path('app_products_homme_chaussettes') }}">Chaussettes</a></li>
+                    <li><a href="{{ path('app_products_homme_gardien') }}">Gardiens</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="femme-link">Femme</a>
+                <ul class="sub-nav" id="femme-sub-nav" style="display: none;">
+                    <li><a href="{{ path('app_products_femme_maillots') }}">Maillots</a></li> 
+                    <li><a href="{{ path('app_products_femme_shorts') }}">Shorts</a></li>                   
+                    <li><a href="{{ path('app_products_femme_chaussettes') }}">Chaussettes</a></li>
+                    <li><a href="{{ path('app_products_femme_gardienne') }}">Gardiennes</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="enfant-link">Enfant</a>
+                <ul class="sub-nav" id="enfant-sub-nav" style="display: none;">
+                    <li><a href="{{ path('app_products_enfant_maillots') }}">Maillots</a></li> 
+                    <li><a href="{{ path('app_products_enfant_shorts') }}">Shorts</a></li>                   
+                    <li><a href="{{ path('app_products_enfant_chaussettes') }}">Chaussettes</a></li>
+                    <li><a href="{{ path('app_products_enfant_gardien') }}">Gardiens</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="equipes-link">Équipes</a>
+                <ul class="sub-nav" id="equipes-sub-nav" style="display: none;">
+                    <li><a href="{{ path('app_products_championship', {championship: 'Ligue 1'}) }}">Ligue 1</a></li>
+                    <li><a href="{{ path('app_products_championship', {championship: 'Premier League'}) }}">Premier League</a></li>
+                    <li><a href="{{ path('app_products_championship', {championship: 'La Liga'}) }}">La Liga</a></li>
+                    <li><a href="{{ path('app_products_championship', {championship: 'Serie A'}) }}">Serie A</a></li>
+                    <li><a href="{{ path('app_products_championship', {championship: 'Bundesliga'}) }}">Bundesliga</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ path('app_news') }}">Actus</a></li>
+        </ul>
+        <form action="{{ path('app_products_search') }}" method="get" style="display:inline; position: relative;">
+            <input type="text" name="q" id="search-input" placeholder="Rechercher un produit" value="{{ query|default('') }}">
+            <button type="submit">Rechercher</button>
+            <div id="suggestions" class="suggestions"></div>
+        </form>
+            {% if app.user %}
+                <li><a href="{{ path('app_cart') }}">Mon Panier</a></li>
+                <li><a href="{{ path('app_user') }}">Profil</a></li>
+            {% else %}
+                <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
+            {% endif %}
+    </nav>
+    {% block body %}{% endblock %}
+    {% block javascripts %}
+    <script src="{{ asset('app.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

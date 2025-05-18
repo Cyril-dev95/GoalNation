@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon adresse{% endblock %}
+
+{% block body %}
+    {% include 'user/menu.html.twig' %}
+    <h1>Modifier mon adresse</h1>
+
+    <form method="post" action="{{ path('user_edit_address') }}">
+        <div>
+            <label for="address">Nouvelle adresse :</label>
+            <input type="text" id="address" name="address" value="{{ app.user.address }}" required>
+        </div>
+        <button type="submit">Enregistrer</button>
+    </form>
+{% endblock %}

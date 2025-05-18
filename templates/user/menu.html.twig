@@ -1,0 +1,16 @@
+{% block body %}
+
+<div>
+    {% if app.user %}
+        <h1>Bonjour, {{ app.user.firstName }} {{ app.user.lastName }}</h1>
+    {% else %}
+        <h1>Vous devez être connecté pour accéder à cette page.</h1>
+    {% endif %}
+
+    <ul style="list-style: none; padding: 0;">
+        <li><a href="{{ path('user_personal_info') }}">Mes informations personnelles</a></li>
+        <li><a href="{{ path('user_orders') }}">Mes commandes</a></li>
+        <li><a href="{{ path('user_address') }}">Mon adresse</a></li>
+    </ul>
+</div>
+{% endblock %}

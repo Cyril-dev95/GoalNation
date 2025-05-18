@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actu Football{% endblock %}
+
+{% block body %}
+    <h1>Actualités Football Européen</h1>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="{{ article.url }}" target="_blank"><strong>{{ article.title }}</strong></a><br>
+                <small>{{ article.publishedAt|date('d/m/Y H:i') }}</small><br>
+                {% if article.urlToImage %}
+                    <img src="{{ article.urlToImage }}" alt="image" style="max-width:200px;"><br>
+                {% endif %}
+                {{ article.description }}
+            </li>
+        {% else %}
+            <li>Aucune news trouvée.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

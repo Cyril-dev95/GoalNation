@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+    {% if app.user %}
+        {% include 'user/menu.html.twig' %}
+    {% else %}
+        <h1>Vous devez être connecté pour accéder à cette page.</h1>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes{% endblock %}
+
+{% block body %}
+    {% include 'user/menu.html.twig' %}
+    <h1>Mes commandes</h1>
+    {% if orders is empty %}
+        <p>Aucune commande passée.</p>
+    {% else %}
+        <ul>
+            {% for order in orders %}
+                <li style="margin-bottom: 20px;">
+                    Commande du {{ order.createdAt|date('d/m/Y H:i') }} | Total : {{ order.total }} € | Statut : {{ order.status }}
+                    <ul>
+                        {% for detail in order.orderDetails %}
+                            <li>
+                            <img src="{{ asset('images/' ~ detail.product.imageUrl ~ '.webp') }}" alt="{{ detail.product.productName }}" style="max-width:40px;max-height:40px;">
+                                <strong>{{ detail.product.productName }}</strong>
+                                <p>Quantité : {{ detail.quantity }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

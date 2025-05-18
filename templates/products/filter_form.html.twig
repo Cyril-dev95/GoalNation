@@ -1,0 +1,97 @@
+{% set sizes = sizes|default([]) %}
+{% set brands = brands|default([]) %}
+{% set teams = teams|default([]) %}
+<form id="filter-form" action="" method="get">
+    <div>
+        <label>
+            <input type="checkbox" name="sizes[]" value="S" {% if 'S' in sizes %}checked{% endif %}> {# Case à cocher pour la taille S, cochée si 'S' est dans les tailles sélectionnées #}
+            S
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="M" {% if 'M' in sizes %}checked{% endif %}> {# Case à cocher pour la taille M, cochée si 'M' est dans les tailles sélectionnées #}
+            M
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="L" {% if 'L' in sizes %}checked{% endif %}> {# Case à cocher pour la taille L, cochée si 'L' est dans les tailles sélectionnées #}
+            L
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="XL" {% if 'XL' in sizes %}checked{% endif %}> {# Case à cocher pour la taille XL, cochée si 'XL' est dans les tailles sélectionnées #}
+            XL
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="XXL" {% if 'XXL' in sizes %}checked{% endif %}> {# Case à cocher pour la taille XL, cochée si 'XXL' est dans les tailles sélectionnées #}
+            XXL
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="4-6ans" {% if '4-6ans' in sizes %}checked{% endif %}>
+            4-6 ans
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="6-8ans" {% if '6-8ans' in sizes %}checked{% endif %}>
+            6-8 ans
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="8-10ans" {% if '8-10ans' in sizes %}checked{% endif %}>
+            8-10 ans
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="10-12ans" {% if '10-12ans' in sizes %}checked{% endif %}>
+            10-12 ans
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="12-14ans" {% if '12-14ans' in sizes %}checked{% endif %}>
+            12-14 ans
+        </label>
+        <label>
+            <input type="checkbox" name="sizes[]" value="14-16ans" {% if '14-16ans' in sizes %}checked{% endif %}>
+            14-16 ans
+        </label>
+    </div>
+
+    <div>
+        <label for="price-range">Prix:</label> {# Label pour le champ de sélection de la plage de prix #}
+        <input type="range" id="price-range" name="price" min="0" max="500" step="10" value="{{ price|default(0) }}"> {# Champ de sélection de la plage de prix, avec une valeur par défaut de 0 #}
+        <span id="price-value">{{ price|default(0) }}€</span> {# Affiche la valeur actuelle de la plage de prix #}
+    </div>
+
+    <div>
+        <label>Pointure:</label> {# Label pour les tailles de chaussures #}
+        {% for size in [37, 38, 39, 40, 41, 42, 43, 44, 45, 46] %} {# Boucle sur les tailles de chaussures disponibles #}
+            <label>
+                <input type="checkbox" name="sizes[]" value="{{ size }}" {% if size in sizes %}checked{% endif %}> {# Case à cocher pour chaque taille de chaussure, cochée si la taille est sélectionnée #}
+                {{ size }}
+            </label>
+        {% endfor %}
+        <label>
+            <input type="checkbox" name="sizes[]" value="35-38" {% if '35-38' in sizes %}checked{% endif %}>
+                35-38
+            </label>
+            <input type="checkbox" name="sizes[]" value="39-42" {% if '39-42' in sizes %}checked{% endif %}>
+                39-42
+            </label>
+            <input type="checkbox" name="sizes[]" value="43-46" {% if '43-46' in sizes %}checked{% endif %}>
+                43-46
+            </label>
+    </div>
+
+    <div>
+        <label>Marques:</label> {# Label pour les marques #}
+        {% for brand in ['Puma', 'Adidas', 'Nike'] %}
+            <label>
+                <input type="checkbox" name="brands[]" value="{{ brand }}" {% if brand in brands %}checked{% endif %}>
+                {{ brand }}
+            </label>
+        {% endfor %}
+    </div>
+
+    <div>
+        <label>Championnats:</label> {# Label pour les championnats #}
+        {% for team in ['Ligue 1', 'Premier League', 'La Liga', 'Bundesliga', 'Serie A'] %} {# Boucle sur les championnats disponibles #}
+            <label>
+                <input type="checkbox" name="teams[]" value="{{ team }}" {% if team in teams %}checked{% endif %}> {# Case à cocher pour chaque championnat, cochée si le championnat est sélectionné #}
+                {{ team }}
+            </label>
+        {% endfor %}
+    </div>
+</form> {# Fin du formulaire de filtrage des produits #}
