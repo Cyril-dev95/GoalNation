@@ -1,16 +1,25 @@
 {% block body %}
 
-<div>
-    {% if app.user %}
-        <h1>Bonjour, {{ app.user.firstName }} {{ app.user.lastName }}</h1>
-    {% else %}
-        <h1>Vous devez être connecté pour accéder à cette page.</h1>
-    {% endif %}
+{% if not app.user %}
+    <h1 class="user-title">Vous devez être connecté pour accéder à cette page.</h1>
+{% else %}
+    <div>
+        <h1 class="user-title">Bonjour, {{ app.user.firstName|capitalize }} {{ app.user.lastName|capitalize }}</h1>
+        <div class="user-menu">
+            <h2>Mon compte</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li class="{% if app.request.attributes.get('_route') == 'user_personal_info' %}active{% endif %}">
+                    <a href="{{ path('user_personal_info') }}">Mes informations personnelles</a>
+                </li>
+                <li class="{% if app.request.attributes.get('_route') == 'user_orders' %}active{% endif %}">
+                    <a href="{{ path('user_orders') }}">Mes commandes</a>
+                </li>
+                <li class="{% if app.request.attributes.get('_route') == 'user_address' %}active{% endif %}">
+                    <a href="{{ path('user_address') }}">Mon adresse</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endif %}
 
-    <ul style="list-style: none; padding: 0;">
-        <li><a href="{{ path('user_personal_info') }}">Mes informations personnelles</a></li>
-        <li><a href="{{ path('user_orders') }}">Mes commandes</a></li>
-        <li><a href="{{ path('user_address') }}">Mon adresse</a></li>
-    </ul>
-</div>
 {% endblock %}

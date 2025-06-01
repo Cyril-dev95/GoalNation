@@ -1,7 +1,128 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil
+{% endblock %}
 
 {% block body %}
-    
+	<div class="home-container">
+		<div class="home-content">
+            <h1 class="home-title">Nouveautés</h1>
+            <div class="wrapper">
+                <i class="fa-solid fa-chevron-left nouveautes-left"></i>
+                <div class="carousel nouveautes-carousel">
+                    <ul class="card-list nouveautes-track">
+                        {% for product in latestProducts %}
+                        <li class="card-item">
+                            <a href="{{ path('app_products_show', {id: product.id}) }}" class="card-link">
+                                <img src="{{ asset('images/' ~ product.imageUrl ~ '.webp') }}" alt="{{ product.productName }}" class="card-image">
+                                <p class="badge badge-nouveautes">Nouveautés</p>
+                                <p class="card-title">{{ product.productName }}</p>
+                                <button class="card-button material-symbols-rounded">arrow_forward</button>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <i class="fa-solid fa-chevron-right nouveautes-right"></i>
+            </div>
+
+            <h1 class="home-title">Top Ventes</h1>
+            <div class="wrapper">
+                <i class="fa-solid fa-chevron-left ventes-left"></i>
+                <div class="carousel ventes-carousel">
+                    <ul class="card-list ventes-track">
+                        {% for product in topSales %}
+                        <li class="card-item">
+                            <a href="{{ path('app_products_show', {id: product.id}) }}" class="card-link">
+                                <img src="{{ asset('images/' ~ product.imageUrl ~ '.webp') }}" alt="{{ product.productName }}" class="card-image">
+                                <p class="badge badge-topventes">Top Ventes</p>
+                                <p class="card-title">{{ product.productName }}</p>
+                                <button class="card-button material-symbols-rounded">arrow_forward</button>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <i class="fa-solid fa-chevron-right ventes-right"></i>
+            </div>
+			
+
+            <h1 class="home-title">Actualités</h1>
+            <div class="wrapper">
+                <i class="fa-solid fa-chevron-left news-left"></i>
+                <div class="carousel news-carousel">
+                    <ul class="card-list news-track">
+                        {% for article in latestNews %}
+                        <li class="card-item">
+                            <a href="{{ article.url }}" class="card-link" target="_blank">
+                                <img src="{{ article.urlToImage ?? asset('images/default-news.webp') }}" alt="{{ article.title }}" class="card-image">
+                                <p class="badge badge-actualites">Actualités</p>
+                                <h2 class="card-title">{{ article.title }}</h2>
+                                <div class="card-footer">
+                                    <button class="card-button material-symbols-rounded">arrow_forward</button>
+                                    <p class="article-source-1">{{ article.source.name }}</p>
+                                    <p class="article-source-2">{{ article.publishedAt|date('d/m/Y H:i') }}</p>
+                                </div>
+                                
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <i class="fa-solid fa-chevron-right news-right"></i>
+            </div>
+	</div>
+
+    <hr class="separator">
+
+	<div class="infos-container">
+        <h2 class="infos-title">GoalNation : Porter le Football avec Fierté</h2>
+		<div class="infos-content">
+			<img class="home-img" src="{{ asset('images/city-stade-marseille.webp') }}" alt="">
+			<pre class="infos-text-content">
+Le football n'est pas qu'un sport : c'est une passion universelle, 
+un langage partagé qui transcende les cultures, les générations et 
+les frontières. Depuis les terrains improvisés des quartiers 
+jusqu'aux plus grands stades du monde, il incarne bien plus qu'un 
+simple jeu. Il est un moteur d'émotion, un lien social puissant et 
+un vecteur d'identité. Peu d'activités rassemblent autant 
+d'individus autour d'une même ferveur, d'un même espoir, 
+d'un même but.
+
+Chaque match raconte une histoire. Il fait vibrer les foules, 
+rassemble les familles et alimente les conversations bien au-delà 
+des 90 minutes de jeu. Les couleurs portées fièrement, les chants 
+des supporters, les gestes techniques d'un joueur inspiré : tout 
+dans le football suscite un attachement profond et durable. 
+Il suffit parfois d'un but, d'un arrêt décisif ou d'un moment 
+de génie pour graver une émotion à jamais dans les mémoires. 
+C'est ce qui pousse des millions de personnes à suivre avec 
+    ferveur leur club ou leur sélection nationale, saison après 
+        saison, dans la victoire comme dans la défaite.</pre>
+		</div>
+
+		<div class="infos-logo-container">
+			<img id="infos-home-logo" src="{{ asset('images/infos-home-logo.webp') }}" alt="">
+		</div>
+
+		<div class="infos-content">
+			<pre class="infos-text-content">
+GoalNation n'est pas qu'un site e-commerce : c'est un projet né 
+de la passion du football, pensé pour tous ceux qui vivent ce sport 
+avec intensité. C'est un point de rencontre entre l'amour du jeu, le 
+respect des clubs et le désir d'authenticité. Chaque produit proposé 
+est bien plus qu'un simple article : c'est un symbole d'appartenance, 
+une façon d'afficher fièrement ses couleurs et de prolonger l'émotion 
+au-delà du terrain.
+
+GoalNation s'adresse aux passionnés, aux supporters engagés, aux 
+familles qui vibrent ensemble chaque week-end, mais aussi à ceux qui 
+recherchent la qualité et l'originalité dans leur manière de représenter 
+leur club. Du plus jeune au plus expérimenté, chacun peut y trouver sa 
+place, son style, son identité. Parce qu'au-delà du simple achat, c'est 
+une expérience que nous souhaitons offrir : celle de vivre sa passion 
+avec fierté, engagement et sincérité, chaque jour de l'année.</pre>
+			<img class="home-img home-img-left" src="{{ asset('images/tribune-om.webp') }}" alt="">
+		</div>
+	</div>
 {% endblock %}

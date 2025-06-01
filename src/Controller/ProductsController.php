@@ -13,14 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductsController extends AbstractController
 {
-    // Route pour la page d'accueil
-    #[Route('/', name: 'app_home')]
-    public function home(): Response
-    {
-        // Rendre le template 'home.html.twig'
-        return $this->render('home.html.twig');
-    }
-
     // Route pour afficher tous les produits
     #[Route('/products', name: 'app_products')]
     public function products(Request $request, EntityManagerInterface $entityManager): Response
@@ -29,65 +21,72 @@ class ProductsController extends AbstractController
         $products = $this->getFilteredProducts($request, $entityManager);
 
         // Rendre le template 'products/index.html.twig' avec les produits et les paramètres de recherche
-        return $this->render('products/index.html.twig', [
+        return $this->render('products/search.html.twig', [
             'products' => $products, // Liste des produits
             'query' => $request->query->get('q', ''), // Requête de recherche
             'sizes' => $request->query->all('sizes'), // Tailles sélectionnées
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
     // Méthode privée pour obtenir les produits filtrés
     private function getFilteredProducts(Request $request, EntityManagerInterface $entityManager, $categoryKeyword = null, $limit = 30): array
-{
-    $query = $request->query->get('q', ''); // Requête de recherche
-    $sizes = $request->query->all('sizes'); // Tailles sélectionnées
-    $price = $request->query->get('price', 0); // Prix maximum
-    $brands = $request->query->all('brands'); // Marques sélectionnées
-    $championships = $request->query->all('teams'); // Équipes sélectionnées
+    {
+        $query = $request->query->get('q', ''); // Requête de recherche
+        $sizes = $request->query->all('sizes'); // Tailles sélectionnées
+        $price = $request->query->get('price', 0); // Prix maximum
+        $brands = $request->query->all('brands'); // Marques sélectionnées
+        $championships = $request->query->all('teams'); // Équipes sélectionnées
+        $clubs = $request->query->all('clubs');
 
-    // Créer un QueryBuilder pour la requête
-    $qb = $entityManager->getRepository(Products::class)->createQueryBuilder('p');
-    $qb->setMaxResults($limit); // Limite le nombre de résultats
+        // Créer un QueryBuilder pour la requête
+        $qb = $entityManager->getRepository(Products::class)->createQueryBuilder('p');
+        $qb->setMaxResults($limit); // Limite le nombre de résultats
 
-    // Ajouter une condition pour filtrer par mot-clé dans le nom ou la description
-    if ($categoryKeyword) {
-        $qb->andWhere('p.productName LIKE :categoryKeyword OR p.description LIKE :categoryKeyword')
-           ->setParameter('categoryKeyword', '%' . $categoryKeyword . '%');
-    }
-
-    if ($query) {
-        $qb->andWhere('p.productName LIKE :query')
-           ->setParameter('query', '%' . $query . '%');
-    }
-
-    if (!empty($sizes)) {
-    $orX = $qb->expr()->orX(); // Crée une expression OR
-    foreach ($sizes as $key => $size) {
-        $orX->add($qb->expr()->like('p.size', ':size' . $key));
-        $qb->setParameter('size' . $key, '%"' . $size . '"%'); // Recherche la taille dans la liste sérialisée
+        // Ajouter une condition pour filtrer par mot-clé dans le nom ou la description
+        if ($categoryKeyword) {
+            $qb->andWhere('p.productName LIKE :categoryKeyword OR p.description LIKE :categoryKeyword')
+            ->setParameter('categoryKeyword', '%' . $categoryKeyword . '%');
         }
-    $qb->andWhere($orX);
-    }
 
-    if ($price > 0) {
-        $qb->andWhere('p.price <= :price')
-           ->setParameter('price', $price);
-    }
+        if ($query) {
+            $qb->andWhere('p.productName LIKE :query')
+            ->setParameter('query', '%' . $query . '%');
+        }
 
-    if (!empty($brands)) {
-        $qb->andWhere('p.brand IN (:brands)')
-           ->setParameter('brands', $brands);
-    }
+        if (!empty($sizes)) {
+        $orX = $qb->expr()->orX(); // Crée une expression OR
+        foreach ($sizes as $key => $size) {
+            $orX->add($qb->expr()->like('p.size', ':size' . $key));
+            $qb->setParameter('size' . $key, '%"' . $size . '"%'); // Recherche la taille dans la liste sérialisée
+            }
+        $qb->andWhere($orX);
+        }
 
-    if (!empty($championships)) {
-        $qb->andWhere('p.championship IN (:championships)')
-           ->setParameter('championships', $championships);
-    }
+        if ($price > 0) {
+            $qb->andWhere('p.price <= :price')
+            ->setParameter('price', $price);
+        }
 
-    return $qb->getQuery()->getResult();
+        if (!empty($brands)) {
+            $qb->andWhere('p.brand IN (:brands)')
+            ->setParameter('brands', $brands);
+        }
+
+        if (!empty($championships)) {
+            $qb->andWhere('p.championship IN (:championships)')
+            ->setParameter('championships', $championships);
+        }
+
+        if (!empty($clubs)) {
+            $qb->andWhere('p.team IN (:clubs)')
+            ->setParameter('clubs', $clubs);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     // Route pour afficher les maillots homme
@@ -104,6 +103,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0),
             'brands' => $request->query->all('brands'),
             'teams' => $request->query->all('teams'),
+            'clubs' => $request->query->all('clubs'),
         ]);
 
         return $response;
@@ -123,6 +123,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -131,7 +132,7 @@ class ProductsController extends AbstractController
     public function shortsHomme(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Obtenir les produits filtrés pour les shorts homme
-        $products = $this->getFilteredProducts($request, $entityManager, 'Shorts Homme');
+        $products = $this->getFilteredProducts($request, $entityManager, 'Short Homme');
 
         return $this->render('products/search.html.twig', [
             'products' => $products, // Liste des produits
@@ -140,6 +141,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -157,6 +159,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -173,6 +176,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -180,7 +184,7 @@ class ProductsController extends AbstractController
     #[Route('/products/femme/shorts', name: 'app_products_femme_shorts')]
     public function femmeShorts(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $products = $this->getFilteredProducts($request, $entityManager, 'Shorts Femme');
+        $products = $this->getFilteredProducts($request, $entityManager, 'Short Femme');
 
         return $this->render('products/search.html.twig', [
             'products' => $products, // Liste des produits
@@ -189,6 +193,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -206,6 +211,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -223,6 +229,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -239,6 +246,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -256,6 +264,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -263,7 +272,7 @@ class ProductsController extends AbstractController
     #[Route('/products/enfant/shorts', name: 'app_products_enfant_shorts')]
     public function enfantShorts(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $products = $this->getFilteredProducts($request, $entityManager, 'Shorts Enfant');
+        $products = $this->getFilteredProducts($request, $entityManager, 'Short Enfant');
 
         return $this->render('products/search.html.twig', [
             'products' => $products, // Liste des produits
@@ -272,6 +281,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 
@@ -288,6 +298,7 @@ class ProductsController extends AbstractController
             'price' => $request->query->get('price', 0), // Prix maximum
             'brands' => $request->query->all('brands'), // Marques sélectionnées
             'teams' => $request->query->all('teams'), // Équipes sélectionnées
+            'clubs' => $request->query->all('clubs'),
         ]);
     }
 

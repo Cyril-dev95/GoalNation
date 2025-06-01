@@ -1,7 +1,17 @@
 /* global Stripe */
 const stripe = Stripe(window.stripePublicKey);
-const elements = stripe.elements();
-const card = elements.create('card');
+const elements = stripe.elements({wallets: { link: 'never' }});
+const card = elements.create('card', { 
+    disableLink: true, 
+    style: {
+    base: {
+      fontFamily: "'Oxanium', sans-serif",
+      fontSize: '16px',
+      color: '#fff',
+      '::placeholder': { color: '#aaa' },
+    }
+  }
+});
 card.mount('#card-element');
 
 let clientSecret = null;

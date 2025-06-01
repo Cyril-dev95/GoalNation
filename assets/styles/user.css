@@ -1,0 +1,647 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #F5F5F5;
+}
+
+.user-title {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 30px;
+    margin-top: 4vh;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+
+.user-menu {
+    min-height: 500px;
+    margin-left: 3vw;
+    border: 2px solid #12E4FC;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: rgba(32, 32, 32, 0.856);
+    width: 20rem;
+}
+
+.user-menu h2 {
+    font-family: 'Oxanium', sans-serif;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 1.5rem;
+    color: #12E4FC;
+}
+
+.user-menu a {
+    text-decoration: none;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 16px;
+}
+
+.user-menu li {
+    padding: 0;
+    border-bottom: 1px solid #888;
+}
+
+.user-menu li a {
+    display: block;
+    padding: 2rem 2rem; /* on met le padding sur le <a> */
+    color: #12E4FC;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+}
+
+.user-menu li:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.user-menu li:hover a {
+    color: #ffffff;
+}
+
+.user-menu li:first-child {
+    border-top: 1px solid #888;
+}
+
+
+.user-menu li.active,
+.user-menu li.active:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.user-menu li.active a,
+.user-menu li.active:hover a {
+    color: white;
+}
+
+.user-layout {
+    display: flex;
+    align-items: stretch;
+    margin: 3vw 0;
+    width: 60%;
+    min-height: 500px; /* hauteur minimale souhaitée */
+    height: 100%;      /* permet de s'étirer si le parent a une hauteur */
+}
+
+
+.user-content {
+    flex: 1;
+    background: #fff;
+    padding-top: 2rem;
+    /* border-radius: 10px; */
+    border: 2px solid #12E4FC;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border-left: none;
+    background-color: rgba(32, 32, 32, 0.856);
+    margin-top: 5.7rem;
+}
+
+.user-content h2 {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.user-content ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-content strong {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 18px;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.user-content li {
+    font-family: 'Oxanium', sans-serif;
+    list-style: none;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-content a {
+    text-decoration: none;
+    color: #12E4FC;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 0.5rem 2rem;
+}
+
+.user-content a:hover {
+    background-color: rgba(0, 0, 0, 0.788);
+    color: #12E4FC;
+    border: 2px solid #12E4FC;
+    transition: all 0.3s ease;
+}
+
+.user-content p {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 18px;
+    margin: 0.5rem 0;
+}
+
+.adress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+    gap: 3rem;
+}
+
+.adress-container p {
+    color: #12E4FC;
+}
+
+.user-infos {
+    color: #12E4FC;
+}
+
+.user-content ul.order-details-list {
+    display: block;
+    align-items: unset;
+    justify-content: unset;
+}
+
+.order-detail {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start;
+    width: 100%;
+    text-align: left;
+    padding: 0 !important;
+}
+
+.order-detail img {
+    flex-shrink: 0;
+    border-radius: 7px;
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.order-detail > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.order-main, .order-main * {
+    font-family: 'Oxanium', sans-serif !important;
+}
+
+.order-main-row {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.order-main-img {
+    border-radius: 7px;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.order-main-infos {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.order-main-infos > ul.order-details-list {
+    align-self: center;
+}
+
+.order-main-total {
+    font-size: 12px;
+    color: #12E4FC;
+}
+
+.user-content > ul > li {
+    width: 100%;
+}
+
+.user-content .user-separator {
+    width: 25%;
+}
+
+.user-separator {
+    background-color: #000000;
+    margin: 0.5rem auto;
+    opacity: 0.7;
+    height: 2px;
+}
+
+.info-quantity {
+    margin-left: auto;   /* pousse ce bloc tout à droite */
+    align-self: center;  /* centre verticalement */
+    font-size: 14px;
+    min-width: 90px;
+    color: #12E4FC;
+}
+
+.orders-scroll {
+    max-height: 390px;
+    overflow-y: auto;
+    width: 100%;
+    padding-right: 8px;
+    box-sizing: border-box;
+    display: block !important;      /* annule le display:flex hérité */
+}
+
+/* style scrollbar pour un look plus moderne */
+.orders-scroll::-webkit-scrollbar {
+    width: 8px;
+    background: #12E4FC;
+    border-radius: 8px;
+}
+
+.orders-scroll::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 8px;
+}
+
+.connexion-center {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.connexion-container {
+    font-family: 'Oxanium', sans-serif;
+    background-color: rgba(32, 32, 32, 0.856);
+    border: 2px solid #12E4FC;
+    border-radius: 10px;
+    padding: 2rem 7rem 4rem 7rem;
+}
+
+.connexion-container h1 {    
+    font-size: 32px;
+    color: #12E4FC;
+    text-align: center;  
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 18px;
+    color: #12E4FC;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    margin-top: 2rem;
+}
+
+.form-group label:nth-child(1) {
+    margin-top: 1rem;
+}
+
+.checkbox {
+    margin: 2rem 0 2rem 0;
+}
+
+.checkbox label {
+    font-size: 16px;
+    color: #12E4FC;
+    text-align: center;
+    display: block;
+}
+
+.connexion-container input {
+    width: 100%;
+    padding: 0.3rem;
+    border: 2px solid #12E4FC;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 14px;
+}
+
+.connexion-container button {
+    display: block;
+    margin: 3rem auto 0 auto;
+    background-color: #12E4FC;
+    color: #000000;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 16px;
+    padding: 0.5rem 2rem;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.connexion-container button:hover {
+    background-color: #000000;
+    color: #12E4FC;
+    border: 2px solid #12E4FC;
+    transition: background-color 0.3s ease;
+}
+
+.cart-container table {
+    border: 2px solid #12E4FC;
+    border-radius: 10px;
+    padding: 2rem 5rem 2rem 1rem;
+}
+
+.cart-container table th {
+    padding: 1rem 2rem;
+}
+
+.item-quantity {
+    text-align: center;
+}
+
+.item-price {
+    text-align: center;
+}
+
+.item-btns {
+    text-align: center;
+    padding-left: 2rem; /* ou margin-left si tu veux décaler la cellule entière */
+}
+
+.item-btns button {
+    background-color: #12E4FC;
+    color: #000000;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 16px;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.cart-container h1 {
+    font-family: 'Oxanium', sans-serif;
+    color: #000000;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.cart-container h2 {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 22px;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.cart-container .btn-primary {
+    display: block;
+    margin: 0 auto;
+    background-color: #12E4FC;
+    color: #000000;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 14px;
+    padding: 0.5rem 2rem;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.cart-container .btn-primary:hover {
+    background-color: #000000;
+    color: #12E4FC;
+    border: 2px solid #12E4FC;
+    transition: background-color 0.3s ease;
+}
+
+.connexion-container-edit-address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.connexion-container-edit-address h1 {
+    font-family: 'Oxanium', sans-serif;
+    color: #12E4FC;
+    margin-bottom: 1.5rem;
+}
+
+.connexion-container-edit-address label {
+    font-family: 'Oxanium', sans-serif;
+    color: #12E4FC;
+    margin-bottom: 1rem;
+}
+
+.connexion-container-edit-address input {
+    width: 100%;
+    padding: 0.4rem;
+    border: 2px solid #12E4FC;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 14px;
+}
+
+.connexion-container-edit-address button {
+    display: block;
+    margin: 3rem auto 0 auto;
+    background-color: #12E4FC;
+    color: #000000;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 16px;
+    padding: 0.5rem 2rem;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.connexion-container-edit-address button:hover {
+    background-color: #000000;
+    color: #12E4FC;
+    border: 2px solid #12E4FC;
+    transition: background-color 0.3s ease;
+}
+
+.payment-container {
+    font-family: 'Oxanium', sans-serif;
+    width: 30%;
+    height: 300px;
+    background-color: rgba(32, 32, 32, 0.856);
+    border: 2px solid #12E4FC;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.payment-container h2 {
+    font-size: 22px;
+    color: #12E4FC;
+    text-align: center;
+    margin-top: 1.5rem !important;
+    margin-bottom: 3rem !important;
+}
+
+.payment-container p {
+    font-size: 18px;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.pay-btn {
+    display: block;
+    margin: 3rem auto 0 auto;
+    background-color: #12E4FC;
+    color: #000000;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 14px;
+    padding: 0.3rem 1.7rem;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.pay-btn:hover {
+    background-color: #000000;
+    color: #12E4FC;
+    border: 2px solid #12E4FC;
+    transition: background-color 0.3s ease;
+}
+
+.user-orders-container {
+    width: 100%;
+    padding: 5rem 0 5rem 4rem;
+}
+
+.order-container {
+    width: 66%;
+    background-color: white;
+    padding: 0.2rem 0 1rem 1rem;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+.commands-title {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 34px;
+    margin-top: 3.5rem;
+}
+
+.orders-table {
+    margin-top: 2rem;
+}
+
+.orders-table td {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+.orders-table td:last-child {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.orders-table .order-img img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.order-separator {
+    border: none;
+    border-top: 2px solid #4e4e4e !important;
+    margin: 2rem 0;
+    width: 66%;
+    opacity: 0.7;
+}
+
+.order-separator:first-of-type {
+    border-top: none;
+}
+
+.register-center {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-container {
+    font-family: 'Oxanium', sans-serif;
+    background-color: rgba(32, 32, 32, 0.856);
+    border: 2px solid #12E4FC;
+    border-radius: 10px;
+    width: 35vw;
+    padding: 2rem 10rem 3rem 10rem;
+    box-sizing: border-box;
+}
+
+.register-container h1 {    
+    font-size: 32px;
+    color: #12E4FC;
+    text-align: center;  
+    margin-bottom: 2rem;
+}
+
+.register-container label {
+    font-size: 18px;
+    color: #12E4FC;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    font-family: 'Oxanium', sans-serif;
+    display: block;
+}
+
+.register-container input {
+    width: 100%;
+    padding: 0.3rem;
+    border: 2px solid #12E4FC;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 14px;
+}
+
+.register-btn {
+    display: block;
+    margin: 3rem auto 0 auto;
+    background-color: #12E4FC;
+    color: #000000;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 16px;
+    padding: 0.5rem 2rem;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.register-btn:hover {
+    background-color: #000000;
+    color: #12E4FC;
+    border: 2px solid #12E4FC;
+    transition: background-color 0.3s ease;
+}
+
+.register-container .checkbox {
+    margin: 2rem 0 2rem 0;
+}
+
+.register-container .checkbox label {
+    font-size: 16px;
+    color: #12E4FC;
+    text-align: center;
+    display: block;
+}

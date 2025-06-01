@@ -18,36 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const equipesLink = document.getElementById('equipes-link'); // Lien pour la section équipes
     const equipesSubNav = document.getElementById('equipes-sub-nav'); // Sous-navigation pour la section équipes
 
-    // Basculer l'affichage de la sous-navigation homme lors du clic sur le lien homme
-    if (hommeLink && hommeSubNav) {
-        hommeLink.addEventListener('click', function(event) {
-            event.preventDefault(); // Empêcher le comportement par défaut du lien
-            hommeSubNav.style.display = hommeSubNav.style.display === 'none' ? 'block' : 'none'; // Basculer l'affichage
-        });
-    }
-
-    // Basculer l'affichage de la sous-navigation femme lors du clic sur le lien femme
-    if (femmeLink && femmeSubNav) {
-        femmeLink.addEventListener('click', function(event) {
-            event.preventDefault(); // Empêcher le comportement par défaut du lien
-            femmeSubNav.style.display = femmeSubNav.style.display === 'none' ? 'block' : 'none'; // Basculer l'affichage
-        });
-    }
-
-    if (enfantLink && enfantSubNav) {
-        enfantLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            enfantSubNav.style.display = enfantSubNav.style.display === 'none' ? 'block' : 'none';
-        });
-    }
-
-    if (equipesLink && equipesSubNav) {
-        equipesLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            equipesSubNav.style.display = equipesSubNav.style.display === 'none' ? 'block' : 'none';
-        });
-    }
-
     // Suggestions de recherche
     if (searchInput && suggestionsBox) {
         // Ajouter un écouteur d'événement à l'élément de saisie de recherche pour l'événement 'input'
@@ -55,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Obtenir la valeur actuelle de la saisie de recherche
             const query = searchInput.value;
 
-            // Vérifier si la longueur de la requête est supérieure à 2 caractères
-            if (query.length > 2) {
+            // Vérifier si la longueur de la requête est supérieure ou égale à 2 caractères
+            if (query.length >= 2) {
                 // Récupérer les suggestions du serveur en fonction de la requête
                 fetch(`/products/suggestions?q=${encodeURIComponent(query)}`)
                     .then(response => response.json()) // Analyser la réponse JSON
@@ -72,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Définir le HTML interne de l'élément div pour inclure un lien avec les détails de la suggestion
                             suggestionItem.innerHTML = `
                                 <a href="/products/${item.id}">
-                                    <img src="${item.imageUrl}" alt="${item.name}" style="max-width: 50px;">
+                                    <img src="/images/${item.imageUrl}.webp" alt="${item.name}" style="max-width: 6vw;">
                                     ${item.name}
                                 </a>
                             `;
@@ -127,4 +97,116 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    const header = document.querySelector('.header');
+
+    function hideAllSubNavs() {
+        document.querySelectorAll('.sub-nav').forEach(nav => nav.style.display = 'none');
+    }
+
+    if (header) {
+        header.addEventListener('mouseleave', hideAllSubNavs);
+    }    
+
+    function toggleSubNav(linkId, subNavId) {
+        const link = document.getElementById(linkId);
+        const subNav = document.getElementById(subNavId);
+
+        if (!link || !subNav) return;
+
+        link.addEventListener("mouseenter", function(e) {
+            // Ferme toutes les autres sous-nav
+            document.querySelectorAll('.sub-nav').forEach(nav => {
+                if (nav !== subNav) nav.style.display = 'none';
+            });
+            // Affiche celle-ci
+            subNav.style.display = 'block';
+        });
+    }
+
+    toggleSubNav('homme-link', 'homme-sub-nav');
+    toggleSubNav('femme-link', 'femme-sub-nav');
+    toggleSubNav('enfant-link', 'enfant-sub-nav');
+    toggleSubNav('equipes-link', 'equipes-sub-nav');
+
+    // Clique en dehors pour fermer
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-item') && !e.target.closest('.sub-nav')) {
+            document.querySelectorAll('.sub-nav').forEach(nav => nav.style.display = 'none');
+        }
+    });
+
+    function initCardCarousel(carouselSelector, trackSelector, leftSelector, rightSelector, visibleCards = 3) {
+        const carousel = document.querySelector(carouselSelector);
+        const track = document.querySelector(trackSelector);
+        const leftArrow = document.querySelector(leftSelector);
+        const rightArrow = document.querySelector(rightSelector);
+
+        if (!carousel || !track || !leftArrow || !rightArrow) return;
+
+        let cards = Array.from(track.children);
+        const totalCards = cards.length;
+
+        // Clone les dernières et premières cards pour le loop
+        for (let i = 0; i < visibleCards; i++) {
+            track.appendChild(cards[i].cloneNode(true)); // clones début à la fin
+            track.insertBefore(cards[totalCards - 1 - i].cloneNode(true), track.firstChild); // clones fin au début
+        }
+
+        // Mise à jour de la liste des cards après clonage
+        cards = Array.from(track.children);
+
+        let currentIndex = visibleCards; // On commence sur la vraie première card
+
+        function getCardWidth() {
+            const cardWidth = cards[0].offsetWidth;
+            const gap = parseInt(getComputedStyle(track).gap) || 0;
+            return cardWidth + gap;
+        }
+
+        function updateCarousel(transition = true) {
+            track.style.transition = transition ? "transform 0.4s" : "none";
+            track.style.transform = `translateX(-${currentIndex * getCardWidth()}px)`;
+        }
+
+        rightArrow.addEventListener('click', () => {
+            if (currentIndex < cards.length - visibleCards) {
+                currentIndex++;
+                updateCarousel();
+                // Si on arrive sur un clone, reset après la transition
+                if (currentIndex === cards.length - visibleCards) {
+                    setTimeout(() => {
+                        currentIndex = visibleCards;
+                        updateCarousel(false);
+                    }, 400);
+                }
+            }
+        });
+
+        leftArrow.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+                // Si on arrive sur un clone, reset après la transition
+                if (currentIndex === 0) {
+                    setTimeout(() => {
+                        currentIndex = cards.length - visibleCards * 2;
+                        updateCarousel(false);
+                    }, 400);
+                }
+            }
+        });
+
+        window.addEventListener('resize', () => updateCarousel(false));
+
+        // Init
+        updateCarousel(false);
+    }
+
+    // Nouveautés
+    initCardCarousel('.nouveautes-carousel', '.nouveautes-track', '.nouveautes-left', '.nouveautes-right', 3);
+    // Top Ventes
+    initCardCarousel('.ventes-carousel', '.ventes-track', '.ventes-left', '.ventes-right', 3);
+    // Actualités
+    initCardCarousel('.news-carousel', '.news-track', '.news-left', '.news-right', 3);
 });

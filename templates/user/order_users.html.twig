@@ -1,28 +1,51 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/user.css') }}">
+{% endblock %}
 
 {% block title %}Mes commandes{% endblock %}
 
 {% block body %}
+<div class="user-layout">
     {% include 'user/menu.html.twig' %}
-    <h1>Mes commandes</h1>
-    {% if orders is empty %}
-        <p>Aucune commande passée.</p>
-    {% else %}
-        <ul>
-            {% for order in orders %}
-                <li style="margin-bottom: 20px;">
-                    Commande du {{ order.createdAt|date('d/m/Y H:i') }} | Total : {{ order.total }} € | Statut : {{ order.status }}
-                    <ul>
-                        {% for detail in order.orderDetails %}
-                            <li>
-                            <img src="{{ asset('images/' ~ detail.product.imageUrl ~ '.webp') }}" alt="{{ detail.product.productName }}" style="max-width:40px;max-height:40px;">
-                                <strong>{{ detail.product.productName }}</strong>
-                                <p>Quantité : {{ detail.quantity }}</p>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div class="user-content">
+        <h2>Mes commandes</h2>
+        {% if orders is empty %}
+            <p>Aucune commande passée.</p>
+        {% else %}
+            <ul class="orders-scroll">
+                {% for order in orders %}
+                    <li class="order-main">
+                        <div class="order-main-row">
+                            {% set firstDetail = order.orderDetails|first %}
+                            {% if firstDetail %}
+                                <img src="{{ asset('images/' ~ firstDetail.product.imageUrl ~ '.webp') }}" alt="{{ firstDetail.product.productName }}" class="order-main-img">
+                            {% endif %}
+                            <div class="order-main-infos">
+                                <strong>Commande du {{ order.createdAt|date('d/m/Y H:i') }}</strong>
+                                <ul class="order-details-list">
+                                    {% for detail in order.orderDetails %}
+                                        <li class="order-detail">
+                                            <strong>{{ detail.product.productName }}</strong>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <span class="order-main-total">Total : {{ order.total }} € | Statut : {{ order.status }}</span>
+                            </div>
+                            <div class="info-quantity">
+                                {% for detail in order.orderDetails %}
+                                    Quantité : {{ detail.quantity }}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </li>
+                    {% if not loop.last %}
+                        <hr class="user-separator">
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

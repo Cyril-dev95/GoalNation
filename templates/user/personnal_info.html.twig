@@ -1,14 +1,37 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/user.css') }}">
+{% endblock %}
 
 {% block title %}Mes informations personnelles{% endblock %}
 
 {% block body %}
-    {% include 'user/menu.html.twig' %}
-    <h1>Mes informations personnelles</h1>
-    <ul>
-        <li><strong>Prénom :</strong> {{ app.user.firstName }}</li>
-        <li><strong>Nom :</strong> {{ app.user.lastName }}</li>
-        <li><strong>Téléphone :</strong> {{ app.user.phoneNumber }}</li>
-        <li><strong>Email :</strong> {{ app.user.email }}</li>
-    </ul>
+    <div class="user-layout">
+        {% include 'user/menu.html.twig' %}
+        <div class="user-content">
+            <h2>Mes informations personnelles</h2>
+            <ul>
+                <li>
+                    <strong>Prénom</strong>
+                    <div class="user-infos">{{ app.user.firstName|capitalize }}</div>
+                </li>
+                <hr class="user-separator">
+                <li>
+                    <strong>Nom</strong>
+                    <div class="user-infos">{{ app.user.lastName|capitalize }}</div>
+                </li>
+                <hr class="user-separator">
+                <li>
+                    <strong>Téléphone</strong>
+                    <div class="user-infos">{{ app.user.phoneNumber }}</div>
+                </li>
+                <hr class="user-separator">
+                <li>
+                    <strong>Email</strong>
+                    <div class="user-infos">{{ app.user.email }}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}

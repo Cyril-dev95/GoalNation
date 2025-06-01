@@ -1,11 +1,17 @@
-{% extends 'base.html.twig' %} {# Étend le template de base 'base.html.twig' #}
+<title>{% block title %}Créer un compte{% endblock %}</title>
 
-{% block title %}Hello RegistrationController!{% endblock %} {# Définit le titre de la page #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/user.css') }}">
+{% endblock %}
 
-{% block body %} {# Début du bloc 'body' #}
-    <h1>Register</h1> {# Titre de la page #}
-    {{ form_start(registrationForm) }} {# Début du formulaire d'inscription #}
-        {{ form_widget(registrationForm) }} {# Affiche tous les champs du formulaire d'inscription #}
-        <button type="submit" class="btn">Register</button> {# Bouton de soumission du formulaire #}
-    {{ form_end(registrationForm) }} {# Fin du formulaire d'inscription #}
-{% endblock %} {# Fin du bloc 'body' #}
+{% block body %}
+    <div class="register-center">
+        <div class="register-container">
+            <h1>Créer un compte</h1>
+            {{ form_start(registrationForm) }}
+                {{ form_widget(registrationForm) }}
+                <button type="submit" class="register-btn">Enregistrez-vous</button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}

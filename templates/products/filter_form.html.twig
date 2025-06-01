@@ -1,6 +1,7 @@
 {% set sizes = sizes|default([]) %}
 {% set brands = brands|default([]) %}
 {% set teams = teams|default([]) %}
+{% set clubs = clubs|default([]) %}
 <form id="filter-form" action="" method="get">
     <div>
         <label>
@@ -91,6 +92,22 @@
             <label>
                 <input type="checkbox" name="teams[]" value="{{ team }}" {% if team in teams %}checked{% endif %}> {# Case à cocher pour chaque championnat, cochée si le championnat est sélectionné #}
                 {{ team }}
+            </label>
+        {% endfor %}
+    </div>
+
+    <div>
+        <label>Équipes :</label>
+        {% for club in [
+            'Olympique de Marseille', 'Olympique Lyonnais', 'Paris Saint Germain', 'Lens', 'AS Monaco',
+            'Real Madrid', 'FC Barcelone', 'Atlético Madrid',
+            'Borussia Dortmund', 'Bayern Munich',
+            'Arsenal', 'Liverpool', 'Manchester City', 'Manchester United',
+            'AC Milan', 'Inter Milan', 'AS Roma', 'Juventus', 'Naples'
+        ] %}
+            <label>
+                <input type="checkbox" name="clubs[]" value="{{ club }}" {% if clubs is defined and club in clubs %}checked{% endif %}>
+                {{ club }}
             </label>
         {% endfor %}
     </div>

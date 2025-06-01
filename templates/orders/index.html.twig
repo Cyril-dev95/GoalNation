@@ -2,63 +2,73 @@
 
 {% block title %}Mes commandes{% endblock %}
 
-{% block body %}
-    <h1>Mes commandes</h1>
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/user.css') }}">
+{% endblock %}
 
-    {% if orders is empty %}
-        <p>Aucune commande passée.</p>
-    {% else %}
-        {% for order in orders %}
-            <div class="order-meta" style="margin: 30px 0 10px 0;">
-                <strong>Date :</strong> {{ order.createdAt|date('d/m/Y H:i') }} &nbsp;|&nbsp;
-                <strong>Total :</strong> {{ order.total }} € &nbsp;|&nbsp;
-                <strong>Statut :</strong> {{ order.status }}
-            </div>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <img src="{{ asset('images/' ~ order.orderDetails|first.product.imageUrl ~ '.webp') }}"
-                                alt="{{ order.orderDetails|first.product.productName }}"
-                                style="max-width: 100px; max-height: 100px; margin-right: 5px;">
-                        </td>
-                        <td>
-                            {{ order.orderDetails|first.product.productName }}
-                        </td>
-                        <td>
-                            {{ order.orderDetails|first.quantity }}
-                        </td>
-                    </tr>
-                    {% if order.orderDetails|length > 1 %}
-                        <tr class="details-row" id="details-{{ order.id }}" style="display:none;">
-                            <td colspan="3" style="padding:0;">
-                                <table>
-                                    <tbody>
-                                        {% for detail in order.orderDetails|slice(1) %}
-                                            <tr>
-                                                <td>
-                                                    <img src="{{ asset('images/' ~ detail.product.imageUrl ~ '.webp') }}"
-                                                        alt="{{ detail.product.productName }}"
-                                                        style="max-width: 100px; max-height: 100px; margin-right: 5px;">
-                                                </td>
-                                                <td>{{ detail.product.productName }}</td>
-                                                <td>{{ detail.quantity }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-            {% if order.orderDetails|length > 1 %}
-                <div style="margin-top: 5px;">
-                    <button class="toggle-details" data-order="{{ order.id }}">+</button>
+{% block body %}
+    <h1 class="commands-title">Mes commandes</h1>
+
+    <div class="user-orders-container">
+        {% if orders is empty %}
+            <p>Aucune commande passée.</p>
+        {% else %}
+            {% for order in orders %}
+                {% if not loop.first %}
+                    <hr class="order-separator">
+                {% endif %}
+                <div class="order-container">
+                    <div class="order-meta">
+                        <strong>Date :</strong> {{ order.createdAt|date('d/m/Y') }} &nbsp;|&nbsp;
+                        <strong>Total :</strong> {{ order.total }} € &nbsp;|&nbsp;
+                        <strong>Statut :</strong> {{ order.status }}
+                    </div>
+                    <table class="orders-table">
+                        <tbody>
+                            <tr>
+                                <td class="order-img">
+                                    <img src="{{ asset('images/' ~ order.orderDetails|first.product.imageUrl ~ '.webp') }}"
+                                        alt="{{ order.orderDetails|first.product.productName }}">
+                                </td>
+                                <td class="order-name">
+                                    {{ order.orderDetails|first.product.productName }}
+                                </td>
+                                <td class="order-qty">
+                                    Quantité : {{ order.orderDetails|first.quantity }}
+                                </td>
+                            </tr>
+                            {% if order.orderDetails|length > 1 %}
+                                <tr class="details-row" id="details-{{ order.id }}" style="display:none;">
+                                    <td colspan="3" style="padding:0;">
+                                        <table class="orders-table-details">
+                                            <tbody>
+                                                {% for detail in order.orderDetails|slice(1) %}
+                                                    <tr>
+                                                        <td class="order-img">
+                                                            <img src="{{ asset('images/' ~ detail.product.imageUrl ~ '.webp') }}"
+                                                                alt="{{ detail.product.productName }}">
+                                                        </td>
+                                                        <td class="order-name">{{ detail.product.productName }}</td>
+                                                        <td class="order-qty">{{ detail.quantity }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
                 </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+                {% if order.orderDetails|length > 1 %}
+                    <div style="margin-top: 5px;">
+                        <button class="toggle-details" data-order="{{ order.id }}">+</button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

@@ -1,11 +1,198 @@
-.sub-nav {
-    display: none;
-    list-style-type: none;
-    padding-left: 20px;
+@font-face {
+    font-family: 'Oribitron';
+    src: url('../fonts/Orbitron-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
+@font-face {
+    font-family: 'Oxanium';
+    src: url('../fonts/Oxanium-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mea Culpa';
+    src: url('../fonts/MeaCulpa-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Libre Baskerville';
+    src: url('../fonts/LibreBaskerville-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #F5F5F5;
+}
+
+.header {
+    width: 100%;
+}
+
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #12E4FC;
+    padding: 1vh 0;
+}
+
+.navbar-search input {
+    background-color: #8eecf7;
+    border-radius: 20px;
+    padding: 0.5rem 9rem;
+    border: none;
+}
+
+#home-logo-offi {
+    width: 6vw;
+    margin-left: 5vw;
+    border-radius: 15px;
+}
+
+.nav-items {
+    background-color: black;
+    height: 6vh;
+    align-items: center;
+}
+
+.nav-items-content ul {
+    display: flex;
+    justify-content: center;
+    gap: 4vw;
+}
+
+.nav-items li {
+    list-style-type: none;
+    font-size: 18px;
+}
+
+.nav-items a {
+    font-family: 'Oxanium', sans-serif;
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    position: relative; /* nécessaire pour le ::after */
+    padding-bottom: 8px; /* espace pour la ligne */
+    transition: color 0.2s;
+}
+
+.nav-items a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: #ffffff;
+    transform: scaleX(0);
+    transition: transform 0.2s;
+    transform-origin: left;
+}
+
+.nav-items a:hover::after,
+.nav-items a:focus::after {
+    transform: scaleX(1);
+}
+
+.sub-navs-container {
+    width: 100%;
+    background: #12E4FC;
+    text-align: center;
+}
+
+.sub-nav {
+    display: none;
+    padding-top: 1.5rem;
+    padding-bottom: 0.45rem;
+}
+
+.sub-nav li {
+    display: inline-block;
+    margin: 0 2vw;
+    font-size: 18px;
+}
+
+.sub-nav a {
+    font-family: 'Oxanium', sans-serif;
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative; /* nécessaire pour le ::after */
+    padding-bottom: 10px; /* espace pour la ligne */
+    transition: color 0.2s;
+}
+
+.sub-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2.5px; /* épaisseur de la ligne */
+    background: #000; /* couleur de la ligne, adapte si besoin */
+    transform: scaleX(0);
+    transition: transform 0.2s;
+    transform-origin: left;
+}
+
+.sub-nav a:hover::after,
+.sub-nav a:focus::after {
+    transform: scaleX(1);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 5vw;
+    gap: 1vw;
+}
+
+.user-info a {
+    font-family: 'Oribitron', sans-serif;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative; /* nécessaire pour le ::after */
+    padding-bottom: 10px; /* espace pour la ligne */
+    transition: color 0.2s;
+}
+
+.user-info a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2.5px;
+    background: black; /* couleur de la ligne */
+    transform: scaleX(0);
+    transition: transform 0.2s;
+    transform-origin: left;
+}
+
+.user-info a:hover::after,
+.user-info a:focus::after {
+    transform: scaleX(1);
+}
+
+/* Suggestions styles */
 .suggestions {
-    border: 1px solid #ccc;
     max-height: 200px;
     overflow-y: auto;
     position: absolute;
@@ -23,4 +210,356 @@
 
 .suggestion-item:hover {
     background: #f0f0f0;
+}
+
+.home-title {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 24px;
+    margin-top: 4vh;
+    margin-bottom: 1rem;
+    margin-left: 1.5rem;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
+
+.wrapper {
+    max-width: 1250px;
+    position: relative;
+    border-radius: 10px;
+}
+
+.wrapper i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 46px;
+    width: 46px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 46px;
+    background-color: black;
+    color: #12E4FC;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.wrapper i:first-child {
+    left: -23px;
+}
+
+.wrapper i:last-child {
+    right: -17px;
+}
+
+.wrapper .carousel {
+    cursor: pointer;
+    height: 450px;
+    overflow: hidden;
+}
+
+.card-list {
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.card-item {
+    width: calc((100% - 28px) / 3);
+    flex-shrink: 0;
+}
+
+.card-list .card-item {
+    list-style: none;
+}
+
+.card-list .card-item .card-link {
+    width: 400px;
+    height: 420px;
+    display: block;
+    background-color: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: 0.2s ease;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+.card-list .card-item .card-link:hover {
+    border-color: #12E4FC;
+}
+
+.card-item p {
+    color: #000;
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.article-source-1 {
+    font-family: 'Oxanium', sans-serif;
+    margin-left: 5rem;
+    font-weight: bold;
+}
+
+.article-source-2 {
+    font-family: 'Oxanium', sans-serif;
+}
+
+.card-list .card-link .card-image {
+    width: 300px;
+    height: 200px;
+    object-fit: scale-down;
+    border-radius: 10px;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-list .card-link .badge {
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    width: fit-content;
+    border-radius: 50px;
+    float: right;
+    margin-right: 1.5rem;
+    margin-top: 1rem;
+}
+
+.card-list .card-link .badge-nouveautes {
+    color: #5372F0;
+    background: #DDE4FF;
+}
+
+.card-list .card-link .badge-topventes {
+    background: #DDFEE4;
+    color: #2EAD5C;
+}
+
+.card-list .card-link .badge-actualites {
+    background: #e9e9e9;
+    color: #7e7e7e;
+}
+
+.card-list .card-link .card-title {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 1.1rem;
+    color: #000;
+    font-weight: 600;
+    word-break: break-word;   /* Force le retour à la ligne sur les mots trop longs */
+    white-space: normal;      /* S'assure que le texte peut revenir à la ligne */
+    text-align: center;
+    margin-top: 3.8rem;
+}
+
+.card-list .card-link .card-button {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    margin: 30px 0 5px;
+    background: none;
+    cursor: pointer;
+    border: 2px solid #12E4FC;
+    transform: rotate(-45deg);
+    transition: 0.4s ease;
+}
+
+.card-list .card-link:hover .card-button {
+    color: #12E4FC;
+    background: black;
+    border: 2px solid black;
+    transform: rotate(1deg);
+}
+
+.news-left, .news-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 46px;
+    width: 46px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 46px;
+    background-color: black;
+    color: #12E4FC;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.separator {
+    width: 85%;
+    height: 4px;
+    background-color: #12E4FC;
+    border: none;
+    margin: 5vw 0;
+}
+
+.infos-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+
+.infos-content {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+}
+
+.infos-text-content {
+    font-family: 'Libre Baskerville', sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    font-style: italic;
+    width: 30vw;
+}
+
+.infos-text-content::first-letter {
+    font-family: 'Mea Culpa', sans-serif;
+    font-size: 4rem;
+    color: black;
+}
+
+.home-img {
+    width: 45%;
+    aspect-ratio: 4/3;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.815) 30px 40px 45px -10px;
+}
+
+.home-img-left {
+    box-shadow: rgba(0, 0, 0, 0.815) -30px -40px 45px -10px;
+    margin-top: 0.25vw;
+}
+
+.infos-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#infos-home-logo {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    margin-top: -2.5rem;
+    margin-bottom: -2.5rem;
+    z-index: 2;
+}
+
+.infos-title {
+    font-family: 'Oxanium', sans-serif;
+    font-style: italic;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 3vw;
+    text-align: center;
+    text-shadow: #636363b4 2px 2px 4px;
+}
+
+footer {
+    width: 100%;
+}
+
+.footer-container {
+    width: 100%;
+}
+
+.footer-nav-categories {
+    display: flex;
+    justify-content: center;
+    gap: 3em;
+    flex-wrap: wrap;
+    margin-bottom: 5vw;
+}
+
+.footer-category {
+    min-width: 120px;
+}
+
+.footer-category-title {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: black;
+    display: block;
+    margin-bottom: 0.5em;
+    text-decoration: none;
+}
+
+.footer-sub-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-sub-nav li {
+    margin-bottom: 0.3em;
+}
+
+.footer-sub-nav a {
+    color: black;
+    text-decoration: none;
+    font-size: 0.9em;
+    font-family: 'Oxanium', sans-serif;
+    margin-left: 0.5rem; /* espace horizontal entre les éléments */
+}
+
+.footer-sub-nav a:hover {
+    text-decoration: underline;
+}
+
+.footer-end {
+    background-color: #12E4FC;
+    width: 100%;
+}
+
+.footer-end ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-end li {
+    display: inline-flex;
+    list-style: none;
+    padding: 2.5rem 1.5rem; /* espace horizontal entre les éléments */
+}
+
+.footer-end a {
+    text-decoration: none;
+    color: black;
+}
+
+@media screen and (max-width: 900px) {
+    
+    .card-item {
+        width: calc((100% - 14px) / 2);
+    }
+}
+
+@media screen and (max-width: 550px) {
+    
+
+    .card-item {
+        width: 100%;
+    }
 }

@@ -1,19 +1,22 @@
-{% extends 'base.html.twig' %} {# Étend le template de base 'base.html.twig' #}
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/user.css') }}">
+{% endblock %}
 
-{% block title %}Mon Panier{% endblock %} {# Définit le titre de la page #}
+{% block title %}Mon Panier{% endblock %}
 
-{% block body %} {# Début du bloc 'body' #}
-    <h1>Mon Panier</h1> {# Titre de la page #}
+{% block body %}
+<div class="cart-container">
+    <h1>Mon Panier</h1>
 
-    <table> {# Début du tableau #}
-        <thead> {# En-tête du tableau #}
+    <table>
+        <thead>
             <tr>
                 <th></th>
-                <th>Produit</th> {# Colonne pour le nom du produit #}
-                <th>Quantité</th> {# Colonne pour la quantité du produit #}
-                <th>Prix</th> {# Colonne pour le prix unitaire du produit #}
-                <th>Total</th> {# Colonne pour le prix total du produit #}
-                <th>Actions</th> {# Colonne pour les actions (augmenter, diminuer, retirer) #}
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix</th>
             </tr>
         </thead>
         <tbody>
@@ -26,20 +29,21 @@
                     <tr>
                         <td><img src="{{ asset('images/' ~ item.product.imageUrl ~ '.webp') }}" alt="{{ item.product.productName }}" style="max-width: 100px;"></td>
                         <td>{{ item.product.productName }}</td> {# Affiche le nom du produit #}
-                        <td>{{ item.quantity }}</td> {# Affiche la quantité du produit #}
-                        <td>{{ item.product.price|number_format(2, '.', ',') }} €</td> {# Affiche le prix unitaire formaté du produit #}
-                        <td>{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }} €</td> {# Affiche le prix total formaté du produit #}
-                        <td>
-                            <form action="{{ path('app_cart_increase', { id: item.product.id }) }}" method="post" style="display:inline;"> {# Formulaire pour augmenter la quantité du produit #}
-                                <button type="submit" class="btn btn-success">+</button> {# Bouton pour augmenter la quantité #}
+                        <td class="item-quantity">{{ item.quantity }}</td> {# Affiche la quantité du produit #}
+                        <td class="item-price">{{ item.product.price|number_format(2, '.', ',') }} €</td> {# Affiche le prix unitaire formaté du produit #}
+                            <td class="item-btns">
+                            <form action="{{ path('app_cart_increase', { id: item.product.id }) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-success">+</button>
                             </form>
-                            <form action="{{ path('app_cart_decrease', { id: item.product.id }) }}" method="post" style="display:inline;"> {# Formulaire pour diminuer la quantité du produit #}
-                                <button type="submit" class="btn btn-warning">-</button> {# Bouton pour diminuer la quantité #}
+                            <form action="{{ path('app_cart_decrease', { id: item.product.id }) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-warning">-</button>
                             </form>
-                            <form action="{{ path('app_cart_remove', { id: item.product.id }) }}" method="post" style="display:inline;"> {# Formulaire pour retirer le produit du panier #}
-                                <button type="submit" class="btn btn-danger">Retirer</button> {# Bouton pour retirer le produit #}
+                            <form action="{{ path('app_cart_remove', { id: item.product.id }) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Retirer</button>
                             </form>
                         </td>
+                        
+                        
                     </tr>
                 {% endfor %}
             {% endif %}
@@ -53,4 +57,6 @@
             <button type="submit" class="btn btn-primary">Passer la commande</button>
         </form>
     {% endif %}
+</div>
+    
 {% endblock %}

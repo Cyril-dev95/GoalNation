@@ -4,12 +4,18 @@
 
 {% block body %} {# Début du bloc 'body' #}
     {% set sizes = sizes|default([]) %}
-    {% include 'products/filter_form.html.twig' with { 'brands': brands|default([]), 'sizes': sizes } %}
+    {% include 'products/filter_form.html.twig' with {
+        'brands': brands|default([]),
+        'sizes': sizes|default([]),
+        'teams': teams|default([]),
+        'clubs': clubs|default([]),
+        'price': price|default(0)
+    } %}
 
     <h1>Produits</h1> {# Titre de la page #}
 
     <div class="products" id="products-list"> {# Début de la liste des produits #}
-        {% for product in products %} {# Boucle sur chaque produit #}
+        {% for product in products %}
             <div class="product">
                 <h2>{{ product.productName }}</h2>
                 {% if product.imageUrl %}
@@ -17,22 +23,17 @@
                 {% else %}
                     <p>Aucune image disponible</p>
                 {% endif %}
-                <p>Taille: 
-                    {% set sizes = product.size|json_encode %}
-                    {{ sizes ? sizes|join(', ') : 'Aucune taille disponible' }}
-                </p>
-                <p>Prix: {{ product.price }}€</p>
-                <p>Marque: {{ product.brand }}</p>
-                <p>Championnat: {{ product.championship }}</p>
+                <div class="product-info" style="margin-top: 10px;">
+                    <p><strong>Marque :</strong> {{ product.brand }}</p>
+                    <p><strong>Nom :</strong> {{ product.productName }}</p>
+                    <p><strong>Prix :</strong> {{ product.price }}€</p>
+                </div>
 
-                {# Lien vers la page de détails du produit #}
                 <a href="{{ path('app_products_show', { id: product.id }) }}" class="btn btn-secondary">Voir Plus</a>
-
-                {# Lien pour ajouter au panier #}
                 <a href="{{ path('app_cart_add', { id: product.id }) }}" class="btn btn-primary">Ajouter au panier</a>
             </div>
         {% else %}
-            <p>Aucun produit trouvé pour les critères sélectionnés.</p>   
-        {% endfor %} {# Fin de la boucle sur les produits #}
+            <p>Aucun produit trouvé pour les critères sélectionnés.</p>
+        {% endfor %}
     </div> {# Fin de la liste des produits #}
 {% endblock %} {# Fin du bloc 'body' #}
