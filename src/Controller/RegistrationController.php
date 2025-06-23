@@ -15,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class RegistrationController extends AbstractController
 {
     // Route pour la page d'inscription
-    #[Route('/register', name: 'app_register')]
+    #[Route('/inscription', name: 'app_register')]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         // Créer un nouvel utilisateur
@@ -44,8 +44,14 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Rediriger vers une autre route
+            // Ajoute le message flash de succès
+            $this->addFlash('success', 'Votre compte a bien été créé, vous pouvez vous connecter !');
+
+            // Rediriger vers la page de connexion
             return $this->redirectToRoute('app_login');
+        } elseif ($form->isSubmitted()) {
+            // Ajoute un message flash d'erreur général si le formulaire est soumis mais non valide
+            $this->addFlash('error', 'Veuillez corriger les erreurs dans le formulaire.');
         }
 
         // Rendre le template 'registration/register.html.twig' avec le formulaire d'inscription

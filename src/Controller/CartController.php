@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CartController extends AbstractController
 {
     // Route pour afficher le panier
-    #[Route('/cart', name: 'app_cart')]
+    #[Route('/panier', name: 'app_cart')]
     #[IsGranted('ROLE_USER')] // Vérifie que l'utilisateur a le rôle 'ROLE_USER'
     public function index(SessionInterface $session): Response
     {

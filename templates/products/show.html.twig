@@ -1,127 +1,154 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Images du Produit{% endblock %}
+{% block title %}
+    {% if product %}
+        {{ product.productName }}
+    {% else %}
+        Produit non trouvé
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/products.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>Images du Produit</h1>
-
-    <div class="product">
+    <main class="single-product-page">
     {% if product %}
-        <h2>{{ product.productName }}</h2>
+        <h1>{{ product.productName }}</h1>
 
-        {# Image principale #}
-        {% if product.imageUrl %}
-            <img src="{{ asset('images/' ~ product.imageUrl ~ '.webp') }}" alt="{{ product.productName }}" style="max-width: 200px;">
-        {% else %}
-            <p>Aucune image disponible</p>
-        {% endif %}
+        <nav class="back-link">
+            {% if categoryKey == 'homme_maillot' %}
+                <a href="{{ path('app_products_homme_maillots') }}"><span>⤺</span> Retour à la liste des Maillots Homme</a>
+            {% elseif categoryKey == 'homme_chaussettes' %}
+                <a href="{{ path('app_products_homme_chaussettes') }}"><span>⤺</span> Retour à la liste des Chaussettes Homme</a>
+            {% elseif categoryKey == 'homme_shorts' %}
+                <a href="{{ path('app_products_homme_shorts') }}"><span>⤺</span> Retour à la liste des Shorts Homme</a>
+            {% elseif categoryKey == 'homme_gardien' %}
+                <a href="{{ path('app_products_homme_gardien') }}"><span>⤺</span> Retour à la liste des Produits Gardien Homme</a>
+            {% elseif categoryKey == 'femme_maillot' %}
+                <a href="{{ path('app_products_femme_maillots') }}"><span>⤺</span> Retour à la liste des Maillots Femme</a>
+            {% elseif categoryKey == 'femme_chaussettes' %}
+                <a href="{{ path('app_products_femme_chaussettes') }}"><span>⤺</span> Retour à la liste des Chaussettes Femme</a>
+            {% elseif categoryKey == 'femme_shorts' %}
+                <a href="{{ path('app_products_femme_shorts') }}"><span>⤺</span> Retour à la liste des Shorts Femme</a>
+            {% elseif categoryKey == 'femme_gardienne' %}
+                <a href="{{ path('app_products_femme_gardienne') }}"><span>⤺</span> Retour à la liste des Produits Gardienne Femme</a>
+            {% elseif categoryKey == 'enfant_maillot' %}
+                <a href="{{ path('app_products_enfant_maillots') }}"><span>⤺</span> Retour à la liste des Maillots Enfant</a>
+            {% elseif categoryKey == 'enfant_chaussettes' %}
+                <a href="{{ path('app_products_enfant_chaussettes') }}"><span>⤺</span> Retour à la liste des Chaussettes Enfant</a>
+            {% elseif categoryKey == 'enfant_shorts' %}
+                <a href="{{ path('app_products_enfant_shorts') }}"><span>⤺</span> Retour à la liste des Shorts Enfant</a>
+            {% elseif categoryKey == 'enfant_gardien' %}
+                <a href="{{ path('app_products_enfant_gardien') }}"><span>⤺</span> Retour à la liste des Produits Gardien Enfant</a>
+            {% endif %}
+        </nav>
 
-        {# Images supplémentaires #}
-        {% set hasImage = false %}
-        {% if product.additionnalImages %}
-            <div class="additional-images">
-                {% for imageUrl in product.additionnalImages|split(',') %}
-                    {% set trimmed = imageUrl|trim %}
-                    {% if trimmed %}
-                        {% set hasImage = true %}
-                        <img src="{{ asset('images/' ~ trimmed ~ '.webp') }}" alt="Image supplémentaire" style="width: 5%; margin: 10px;">
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endif %}
-        {% if not hasImage %}
-            <p class="img-unavalaible">Aucune image supplémentaire disponible</p>
-        {% endif %}
-
-        <h3>Informations sur le produit</h3>
-        <ul>
-            <li><strong>Prix :</strong> {{ product.price }}€</li>
-            <li><strong>Description :</strong> {{ product.description }}</li>
-            <li><strong>Équipe :</strong> {{ product.team }}</li>
-            <li>
-                <strong>Tailles disponibles :</strong>
-                {% if product.size is not empty %}
-                    {{ product.size|join(', ') }}
+        <section class="single-product-flex">
+            <article class="single-product-left">
+                {# Image principale #}
+                {% if product.imageUrl %}
+                    <img src="{{ asset('images/' ~ product.imageUrl ~ '.webp') }}" data-src="{{ asset('images/' ~ product.imageUrl ~ '.webp') }}" alt="{{ product.productName }}" id="main-product-image" class="main-image">
                 {% else %}
-                    Aucune taille disponible
+                    <p>Aucune image disponible</p>
                 {% endif %}
-            </li>
-        </ul>
+
+                {# Images supplémentaires #}
+                {% set hasImage = false %}
+                {% if product.additionnalImages %}
+                    <div class="additional-images">
+                        {% for imageUrl in product.additionnalImages|split(',') %}
+                            {% set trimmed = imageUrl|trim %}
+                            {% if trimmed %}
+                                {% set hasImage = true %}
+                                <img src="{{ asset('images/' ~ trimmed ~ '.webp') }}" data-src="{{ asset('images/' ~ trimmed ~ '.webp') }}" alt="Photo supplémentaire de {{ product.productName }}" class="thumbnail-image">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if not hasImage %}
+                    <p class="img-unavalaible">Aucune image supplémentaire disponible</p>
+                {% endif %}
+
+                <a href="{{ path('app_cart_add', { id: product.id }) }}" class="btn btn-primary">Ajouter au panier</a>
+
+                {# Calcul de la note moyenne #}
+                {% set total = 0 %}
+                {% set count = 0 %}
+                {% for review in product.reviews %}
+                    {% set total = total + review.rating %}
+                    {% set count = count + 1 %}
+                {% endfor %}
+                {% set average = count > 0 ? (total / count) : 0 %}
+                {% set fullStars = (average / 2)|round(0, 'floor') %}
+                {% set halfStar = (average / 2) - fullStars >= 0.5 %}
+                {% set emptyStars = 5 - fullStars - (halfStar ? 1 : 0) %}
+
+                <div class="product-rating">
+                    <strong>Note moyenne</strong>
+                    <div id="star-rating">
+                        {% for i in 1..5 %}
+                            <span class="star"
+                                data-value="{{ i }}"
+                                style="font-size:2em; cursor:pointer; color:{{ i <= average ? 'gold' : '#ccc' }};">&#9733;</span>
+                        {% endfor %}
+                    </div>
+                    {% if count > 0 %}
+                        ({{ count }} avis)
+                    {% else %}
+                        Pas encore de note
+                    {% endif %}
+
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <form id="star-rating-form" method="post" action="{{ path('app_reviews_add', {productId: product.id}) }}">
+                            <input type="hidden" name="rating" id="rating-input" value="0">
+                            <button type="submit" style="margin-top:10px;">Donnez votre avis</button>
+                        </form>
+                        <script src="{{ asset('star-rating.js') }}"></script>
+                    {% else %}
+                        <p><em><a href="{{ path('app_login') }}">Connectez-vous</a> pour noter ce produit.</em></p>
+                    {% endif %}
+                </div>
+            </article>
+
+            <aside class="single-product-right">
+                <h2>Informations sur le produit</h2>
+                <ul>
+                    <li>
+                        <strong>Prix</strong><br>
+                        <span>{{ product.price }}€</span>
+                    </li>
+                    <li>
+                        <strong>Description</strong><br>
+                        <span>{{ product.description|nl2br }}</span>
+                    </li>
+                    <li>
+                        <strong>Équipe</strong><br>
+                        <span>{{ product.team }}</span>
+                    </li>
+                    <li>
+                        <strong>Tailles disponibles</strong><br>
+                        <span>
+                            {% if product.size is not empty %}
+                                {{ product.size|join(', ') }}
+                            {% else %}
+                                Aucune taille disponible
+                            {% endif %}
+                        </span>
+                    </li>
+                </ul>
+            </aside>
+        </section>
+        
     {% else %}
         <p>Produit non trouvé.</p>
     {% endif %}
-
-    {# Calcul de la note moyenne #}
-    {% set total = 0 %}
-    {% set count = 0 %}
-    {% for review in product.reviews %}
-        {% set total = total + review.rating %}
-        {% set count = count + 1 %}
-    {% endfor %}
-    {% set average = count > 0 ? (total / count) : 0 %}
-    {% set stars = (average / 2)|round(0, 'floor') %}
-
-    {# Calcul de la note moyenne #}
-    {% set total = 0 %}
-    {% set count = 0 %}
-    {% for review in product.reviews %}
-        {% set total = total + review.rating %}
-        {% set count = count + 1 %}
-    {% endfor %}
-    {% set average = count > 0 ? (total / count) : 0 %}
-    {% set fullStars = (average / 2)|round(0, 'floor') %}
-    {% set halfStar = (average / 2) - fullStars >= 0.5 %}
-    {% set emptyStars = 5 - fullStars - (halfStar ? 1 : 0) %}
-
-    <div class="product-rating">
-        <strong>Note moyenne :</strong>
-        <div id="star-rating">
-            {% for i in 1..5 %}
-                <span class="star"
-                    data-value="{{ i }}"
-                    style="font-size:2em; cursor:pointer; color:{{ i <= average ? 'gold' : '#ccc' }};">&#9733;</span>
-            {% endfor %}
-        </div>
-        {% if count > 0 %}
-            ({{ count }} avis)
-        {% else %}
-            Pas encore de note
-        {% endif %}
-
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <form id="star-rating-form" method="post" action="{{ path('app_reviews_add', {productId: product.id}) }}">
-                <input type="hidden" name="rating" id="rating-input" value="0">
-                <button type="submit" style="margin-top:10px;">Envoyer</button>
-            </form>
-            <script src="{{ asset('star-rating.js') }}"></script>
-        {% else %}
-            <p><em><a href="{{ path('app_login') }}">Connectez-vous</a> pour noter ce produit.</em></p>
-        {% endif %}
-    </div>
-
-    {% if categoryKey == 'homme_maillot' %}
-        <a href="{{ path('app_products_homme_maillots') }}">Retour à la liste des Maillots Homme</a>
-    {% elseif categoryKey == 'homme_chaussettes' %}
-        <a href="{{ path('app_products_homme_chaussettes') }}">Retour à la liste des Chaussettes Homme</a>
-    {% elseif categoryKey == 'homme_shorts' %}
-        <a href="{{ path('app_products_homme_shorts') }}">Retour à la liste des Shorts Homme</a>
-    {% elseif categoryKey == 'homme_gardien' %}
-        <a href="{{ path('app_products_homme_gardien') }}">Retour à la liste des Produits Gardien Homme</a>
-    {% elseif categoryKey == 'femme_maillot' %}
-        <a href="{{ path('app_products_femme_maillots') }}">Retour à la liste des Maillots Femme</a>
-    {% elseif categoryKey == 'femme_chaussettes' %}
-        <a href="{{ path('app_products_femme_chaussettes') }}">Retour à la liste des Chaussettes Femme</a>
-    {% elseif categoryKey == 'femme_shorts' %}
-        <a href="{{ path('app_products_femme_shorts') }}">Retour à la liste des Shorts Femme</a>
-    {% elseif categoryKey == 'femme_gardienne' %}
-        <a href="{{ path('app_products_femme_gardienne') }}">Retour à la liste des Produits Gardienne Femme</a>
-    {% elseif categoryKey == 'enfant_maillot' %}
-        <a href="{{ path('app_products_enfant_maillots') }}">Retour à la liste des Maillots Enfant</a>
-    {% elseif categoryKey == 'enfant_chaussettes' %}
-        <a href="{{ path('app_products_enfant_chaussettes') }}">Retour à la liste des Chaussettes Enfant</a>
-    {% elseif categoryKey == 'enfant_shorts' %}
-        <a href="{{ path('app_products_enfant_shorts') }}">Retour à la liste des Shorts Enfant</a>
-    {% elseif categoryKey == 'enfant_gardien' %}
-        <a href="{{ path('app_products_enfant_gardien') }}">Retour à la liste des Produits Gardien Enfant</a>
-    {% endif %}
+   
+    {% block javascripts %}
+        <script src="{{ asset('productsImages.js') }}"></script>
+        <script src="{{ asset('app.js') }}"></script>
+    {% endblock %}
+    </main>
 {% endblock %}

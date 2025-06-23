@@ -1,21 +1,33 @@
+{% extends 'base.html.twig' %}
+
 {% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('styles/user.css') }}">
 {% endblock %}
 
 {% block body %}
-    <div class="connexion-center">
-        <div class="connexion-container inscription-container">
+    <main class="connexion-center">
+
+        {# Affichage des messages flash au-dessus du formulaire #}
+        {% set successMessages = app.flashes('success') %}
+        {% for message in successMessages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        {# Redirection uniquement si le message est "Connexion réussie !" #}
+        {% if 'Connexion réussie !' in successMessages %}
+            <script>
+                setTimeout(function() {
+                    window.location.href = "{{ path('app_home') }}";
+                }, 1000);
+            </script>
+        {% endif %}
+
+        <section class="connexion-container inscription-container">
             <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
-
-                {% if app.user %}
-                    <div class="mb-3">
-                        Bienvenue {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
-                    </div>
-                {% endif %}
-
                 <h1>Connectez-vous</h1>
                 <div class="form-group">
                     <label for="username">Pseudo</label>
@@ -35,8 +47,8 @@
                     Connexion
                 </button>
             </form>
-        </div>
-    </div>
+        </section>
+    </main>
 {% endblock %}
 
 {% block javascripts %}

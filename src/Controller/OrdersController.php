@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrdersController extends AbstractController
 {
-    #[Route('/orders', name: 'app_orders')]
+    #[Route('/commandes', name: 'app_orders')]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -30,7 +30,7 @@ class OrdersController extends AbstractController
         ]);
     }
 
-    #[Route('/order/payment', name: 'order_payment')]
+    #[Route('/commande/paiement', name: 'order_payment')]
     public function payment(SessionInterface $session): Response
     {
         $cart = $session->get('cart', []);
@@ -151,6 +151,7 @@ class OrdersController extends AbstractController
 
         $session->set('cart', []);
 
+        $this->addFlash('success', 'Commande enregistrée avec succès !');
         return new JsonResponse(['success' => true, 'message' => 'Commande enregistrée avec succès']);
     }
 }

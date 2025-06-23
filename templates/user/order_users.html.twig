@@ -14,6 +14,13 @@
         {% if orders is empty %}
             <p>Aucune commande passée.</p>
         {% else %}
+            {# Tableau de traduction des statuts #}
+            {% set statusLabels = {
+                'Paid': 'Payée',
+                'Processing': 'En cours',
+                'Shipped': 'Expédiée',
+                'Cancelled': 'Annulée'
+            } %}
             <ul class="orders-scroll">
                 {% for order in orders %}
                     <li class="order-main">
@@ -31,7 +38,9 @@
                                         </li>
                                     {% endfor %}
                                 </ul>
-                                <span class="order-main-total">Total : {{ order.total }} € | Statut : {{ order.status }}</span>
+                                <span class="order-main-total">
+                                    Total : {{ order.total }} € | Statut : {{ statusLabels[order.status]|default(order.status) }}
+                                </span>
                             </div>
                             <div class="info-quantity">
                                 {% for detail in order.orderDetails %}

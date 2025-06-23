@@ -8,13 +8,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class UserController extends AbstractController
 {
-    #[Route('/user/personal-info', name: 'user_personal_info')]
+    #[Route('/utilisateur/infos-personnelles', name: 'user_personal_info')]
     public function personalInfo(): Response
     {
         return $this->render('user/personnal_info.html.twig');
     }
 
-    #[Route('/user/orders', name: 'user_orders')]
+    #[Route('/utilisateur/commandes', name: 'user_orders')]
     public function orders(): Response
     {
         $user = $this->getUser();
@@ -25,13 +25,13 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/address', name: 'user_address')]
+    #[Route('/utilisateur/adresse', name: 'user_address')]
     public function address(): Response
     {
         return $this->render('user/address.html.twig');
     }
 
-    #[Route('/user/edit_address', name: 'user_edit_address')]
+    #[Route('/utilisateur/modifier-adresse', name: 'user_edit_address')]
     public function editAddress(\Symfony\Component\HttpFoundation\Request $request, \Doctrine\ORM\EntityManagerInterface $em): Response
     {
         // Ce commentaire PHPDoc indique à l'IDE que la variable $user est soit une instance de App\Entity\User, soit null.

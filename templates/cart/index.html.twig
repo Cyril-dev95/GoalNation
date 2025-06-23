@@ -17,6 +17,7 @@
                 <th>Produit</th>
                 <th>Quantité</th>
                 <th>Prix</th>
+                <th></th> {# Colonne pour les boutons #}
             </tr>
         </thead>
         <tbody>
@@ -27,23 +28,21 @@
             {% else %} {# Sinon, afficher les produits du panier #}
                 {% for item in cart %} {# Boucle sur chaque élément du panier #}
                     <tr>
-                        <td><img src="{{ asset('images/' ~ item.product.imageUrl ~ '.webp') }}" alt="{{ item.product.productName }}" style="max-width: 100px;"></td>
-                        <td>{{ item.product.productName }}</td> {# Affiche le nom du produit #}
-                        <td class="item-quantity">{{ item.quantity }}</td> {# Affiche la quantité du produit #}
-                        <td class="item-price">{{ item.product.price|number_format(2, '.', ',') }} €</td> {# Affiche le prix unitaire formaté du produit #}
-                            <td class="item-btns">
+                        <td data-label="Produit"><img src="{{ asset('images/' ~ item.product.imageUrl ~ '.webp') }}" alt="{{ item.product.productName }}" style="max-width: 100px;"></td>
+                        <td data-label="Nom">{{ item.product.productName }}</td>
+                        <td data-label="Quantité" class="item-quantity">{{ item.quantity }}</td>
+                        <td data-label="Prix">{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }} €</td>
+                        <td data-label="Actions" class="item-btns">
                             <form action="{{ path('app_cart_increase', { id: item.product.id }) }}" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-success">+</button>
+                                <button type="submit" class="btn btn-success cart-btn">+</button>
                             </form>
                             <form action="{{ path('app_cart_decrease', { id: item.product.id }) }}" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-warning">-</button>
+                                <button type="submit" class="btn btn-warning cart-btn">-</button>
                             </form>
                             <form action="{{ path('app_cart_remove', { id: item.product.id }) }}" method="post" style="display:inline;">
                                 <button type="submit" class="btn btn-danger">Retirer</button>
                             </form>
                         </td>
-                        
-                        
                     </tr>
                 {% endfor %}
             {% endif %}

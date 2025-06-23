@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NewsController extends AbstractController
 {
-    #[Route('/news', name: 'app_news')]
+    #[Route('/actualites', name: 'app_news')]
     public function index(NewsApiService $newsApiService): Response
     {
         $news = $newsApiService->getFootballNews();

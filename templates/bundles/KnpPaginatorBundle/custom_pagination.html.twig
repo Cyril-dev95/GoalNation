@@ -1,0 +1,40 @@
+{% if pageCount > 1 %}
+<div class="custom-paginator">
+    {# Première page #}
+    {% if first is defined and current != first %}
+        <a href="{{ path(route, query|merge({(pageParameterName): first})) }}" class="paginator-link">&laquo;</a>
+    {% else %}
+        <span class="paginator-link disabled">&laquo;</span>
+    {% endif %}
+
+    {# Page précédente #}
+    {% if previous is defined %}
+        <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" class="paginator-link">&lt;</a>
+    {% else %}
+        <span class="paginator-link disabled">&lt;</span>
+    {% endif %}
+
+    {# Pages #}
+    {% for page in pagesInRange %}
+        {% if page != current %}
+            <a href="{{ path(route, query|merge({(pageParameterName): page})) }}" class="paginator-link">{{ page }}</a>
+        {% else %}
+            <span class="paginator-link active">{{ page }}</span>
+        {% endif %}
+    {% endfor %}
+
+    {# Page suivante #}
+    {% if next is defined %}
+        <a href="{{ path(route, query|merge({(pageParameterName): next})) }}" class="paginator-link">&gt;</a>
+    {% else %}
+        <span class="paginator-link disabled">&gt;</span>
+    {% endif %}
+
+    {# Dernière page #}
+    {% if last is defined and current != last %}
+        <a href="{{ path(route, query|merge({(pageParameterName): last})) }}" class="paginator-link">&raquo;</a>
+    {% else %}
+        <span class="paginator-link disabled">&raquo;</span>
+    {% endif %}
+</div>
+{% endif %}

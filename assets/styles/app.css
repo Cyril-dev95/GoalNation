@@ -50,10 +50,15 @@ body {
     padding: 1vh 0;
 }
 
+.navbar-search {
+    position: relative;
+    display: inline-block; /* ou flex si besoin */
+}
+
 .navbar-search input {
     background-color: #8eecf7;
     border-radius: 20px;
-    padding: 0.5rem 9rem;
+    padding: 0.5rem 11rem;
     border: none;
 }
 
@@ -89,6 +94,7 @@ body {
     position: relative; /* nécessaire pour le ::after */
     padding-bottom: 8px; /* espace pour la ligne */
     transition: color 0.2s;
+    font-size: 1.3rem;
 }
 
 .nav-items a::after {
@@ -196,9 +202,13 @@ body {
     max-height: 200px;
     overflow-y: auto;
     position: absolute;
+    left: 0;
+    top: 100%;
     background: white;
     z-index: 1000;
-    width: 100%;
+    width: 100%; /* Prend la largeur du parent */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 0 0 8px 8px;
 }
 
 .suggestion-item {
@@ -282,8 +292,11 @@ body {
 }
 
 .card-list .card-item .card-link {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
+    min-width: 220px;
     height: 420px;
+    margin: 0 auto;
     display: block;
     background-color: #fff;
     padding: 18px;
@@ -407,46 +420,13 @@ body {
     height: 4px;
     background-color: #12E4FC;
     border: none;
-    margin: 5vw 0;
+    margin: 5vw auto 5vw auto;
 }
 
 .infos-container {
     margin-left: auto;
     margin-right: auto;
     width: fit-content;
-}
-
-.infos-content {
-    display: flex;
-    justify-content: center;
-    gap: 1vw;
-}
-
-.infos-text-content {
-    font-family: 'Libre Baskerville', sans-serif;
-    font-size: 16px;
-    line-height: 1.4;
-    font-style: italic;
-    width: 30vw;
-}
-
-.infos-text-content::first-letter {
-    font-family: 'Mea Culpa', sans-serif;
-    font-size: 4rem;
-    color: black;
-}
-
-.home-img {
-    width: 45%;
-    aspect-ratio: 4/3;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.815) 30px 40px 45px -10px;
-}
-
-.home-img-left {
-    box-shadow: rgba(0, 0, 0, 0.815) -30px -40px 45px -10px;
-    margin-top: 0.25vw;
 }
 
 .infos-logo-container {
@@ -536,30 +516,336 @@ footer {
     justify-content: center;
     align-items: center;
     width: 100%;
+    
 }
 
 .footer-end li {
     display: inline-flex;
     list-style: none;
     padding: 2.5rem 1.5rem; /* espace horizontal entre les éléments */
+    font-family: 'Oxanium', sans-serif;
 }
 
 .footer-end a {
     text-decoration: none;
     color: black;
+    font-family: 'Oxanium', sans-serif;
 }
 
-@media screen and (max-width: 900px) {
-    
+.suggestion-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 4px;
+}
+
+.suggestion-link:hover {
+    background: #f0f0f0;
+}
+
+.suggestion-img-wrapper {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-right: 10px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.suggestion-img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.suggestion-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestion-name {
+    font-weight: bold;
+    font-family: 'Oxanium', sans-serif;
+}
+
+.legal-container {
+    font-family: 'Oxanium', Arial, sans-serif;
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    text-align: center;
+}
+
+.legal-container h1 {
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.legal-container article {
+    margin-bottom: 1.5rem;
+}
+
+.legal-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.legal-container p {
+    font-size: 1.1rem;
+    color: #222;
+}
+
+@media screen and (max-width: 1325px) {
+    .wrapper {
+        max-width: 1000px; /* Limite la largeur totale du carousel */
+        margin: 0 auto;
+    }
+    .card-list {
+        gap: 15px;
+    }
     .card-item {
-        width: calc((100% - 14px) / 2);
+        width: calc((100% - 30px) / 2); /* 3 cards, 2 gaps de 15px */
+        max-width: 320px;
+        min-width: 220px;
+        flex-shrink: 0;
+    }
+    .card-list .card-item .card-link {
+        width: 100%;
+        max-width: 320px;
+        min-width: 220px;
+        height: 340px;
+        padding: 14px;
+        margin: 0 auto;
+    }
+    .card-list .card-link .card-image {
+        width: 100%;
+        max-width: 220px;
+        height: 120px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
-@media screen and (max-width: 550px) {
-    
+@media screen and (min-width: 901px) {
+    .infos-grid {
+        position: relative; /* déjà présent, garde-le */
+    }
+    .infos-grid .infos-logo-container {
+        grid-row: 2;
+        grid-column: 1 / 3;
+        justify-self: center;
+        z-index: 10;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none; /* pour que le logo ne bloque pas les interactions */
+    }
+    #infos-home-logo {
+        width: 7rem;
+        height: 7rem;
+        border-radius: 50%;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+        background: #fff;
+        border: 4px solid #12E4FC;
+        object-fit: cover;
+        z-index: 11;
+        position: relative;
+    }
+    .infos-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 0 2vw;
+        align-items: stretch; /* Ajoute cette ligne pour que chaque cellule prenne toute la hauteur de la ligne */
+        width: 100%;
+        max-width: 1350px;
+        position: relative;
+    }
+    /* Placement des éléments */
+    .infos-grid .home-img:first-of-type { 
+        grid-row: 1; grid-column: 1; 
+    }
+    .infos-grid .infos-text-content:first-of-type { 
+        grid-row: 1; grid-column: 2; 
+    }
+    .infos-grid .infos-logo-container { 
+        grid-row: 2; 
+        grid-column: 1 / 3; 
+        justify-self: center; 
+        z-index: 2;
+    }
+    .infos-grid .infos-text-content:last-of-type { 
+        grid-row: 3; grid-column: 1; 
+    }
+    .infos-grid .home-img.home-img-left { 
+        grid-row: 3; grid-column: 2; 
+    }
 
+    /* Images et textes */
+    .infos-grid .home-img,
+    .infos-grid .home-img-left {
+        width: 100%;
+        aspect-ratio: 4/3;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.815) 30px 40px 45px -10px;
+        margin: 0 auto;
+        display: block;
+    }
+    .infos-grid .home-img-left {
+        box-shadow: rgba(0, 0, 0, 0.815) -30px -40px 45px -10px;
+        margin-top: 0.25vw;
+    }
+    .infos-grid .infos-text-content {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        max-width: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        line-height: 1.4;
+        font-style: italic;
+        white-space: pre-line;
+        font-family: 'Libre Baskerville', sans-serif;
+        box-sizing: border-box;
+        padding: 0;         /* Ajoute ou ajuste le padding ici */
+        text-align: left;   /* Ajoute ceci pour aligner le texte à gauche */
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .navbar-search input {
+        width: 50vw;
+        max-width: 250px;
+        padding: 0.5rem 3vw;
+    }
+
+    .user-info a {
+        font-size: 2vw;
+    }
+
+    .nav-items li a {
+        font-size: 2.5vw;
+    }
+    
+    .wrapper {
+        padding: 0 10px;
+        max-width: 700px;
+    }
+
+    .infos-container {
+        width: 100%;
+        padding: 0 2vw;
+        margin: 0 auto;
+    }
+    .infos-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        width: 100%;
+        max-width: 100vw;
+        position: relative;
+    }
+    .home-img,
+    .home-img-left {
+        width: 100%;
+        max-width: 100vw;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.815) 0 8px 24px -4px;
+        margin: 0 0 1.5rem 0;
+        display: block;
+        /* Ajoute un border si tu veux */
+        /* border: 2px solid #12E4FC; */
+    }
+    .infos-logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1.5rem 0;
+        width: 100%;
+        position: static;
+        transform: none;
+    }
+    #infos-home-logo {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+        background: #fff;
+        border: 3px solid #12E4FC;
+        object-fit: cover;
+        margin: 0 auto;
+        display: block;
+    }
+    .infos-text-content {
+        width: 100%;
+        max-width: 100vw;
+        margin: 0 0 2rem 0;
+        font-size: 1rem;
+        line-height: 1.6;
+        font-style: italic;
+        white-space: pre-line;
+        font-family: 'Libre Baskerville', sans-serif;
+        box-sizing: border-box;
+        padding: 0 1rem;         /* Ajoute ou ajuste le padding ici */
+        text-align: center;   /* Ajoute ceci pour aligner le texte à gauche */
+    }
+}
+
+
+@media screen and (max-width: 550px) {
+    .navbar-search input {
+        width: 40vw;
+        max-width: 98vw;
+        padding: 0.5rem 2vw;
+    }
+    
+    .wrapper {
+        padding: 0 2vw;
+        max-width: 400px;
+    }
     .card-item {
         width: 100%;
+    }
+    .card-list {
+        gap: 10px;
+    }
+    .card-list .card-item .card-link {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        margin: 0 auto;
+    }
+    .card-list .card-link .card-image {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+    }
+
+    .footer-end ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1.5rem 0;
+        align-items: center;
+    }
+    .footer-end ul li {
+        padding: 0.2em 0;
+        text-align: center;
     }
 }

@@ -1,9 +1,13 @@
 body {
+    background-color: #F5F5F5;
+}
+
+main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background-color: #F5F5F5;
+    justify-content: center; /* optionnel, pour centrer verticalement si tu veux */
+    width: 100%;
 }
 
 .user-title {
@@ -279,10 +283,11 @@ body {
 }
 
 .connexion-center {
-    min-height: 100vh;
+    margin-top: 5vw;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    gap: 0.5rem;
 }
 
 .connexion-container {
@@ -362,10 +367,17 @@ body {
     border: 2px solid #12E4FC;
     border-radius: 10px;
     padding: 2rem 5rem 2rem 1rem;
+    margin: 0 auto;
 }
 
 .cart-container table th {
     padding: 1rem 2rem;
+}
+
+.cart-container table th,
+.cart-container table td {
+    text-align: center;
+    vertical-align: middle;
 }
 
 .item-quantity {
@@ -378,7 +390,7 @@ body {
 
 .item-btns {
     text-align: center;
-    padding-left: 2rem; /* ou margin-left si tu veux décaler la cellule entière */
+    padding-left: 2.5rem;
 }
 
 .item-btns button {
@@ -479,12 +491,16 @@ body {
 
 .payment-container {
     font-family: 'Oxanium', sans-serif;
-    width: 30%;
+    width: 600px;
+    min-width: 600px;
+    max-width: 600px;
     height: 300px;
     background-color: rgba(32, 32, 32, 0.856);
     border: 2px solid #12E4FC;
     border-radius: 10px;
-    margin-bottom: 2rem;
+    margin: 4rem auto;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
 }
 
 .payment-container h2 {
@@ -584,7 +600,9 @@ body {
     border: 2px solid #12E4FC;
     border-radius: 10px;
     width: 35vw;
-    padding: 2rem 10rem 3rem 10rem;
+    min-width: 280px;
+    max-width: 650px;
+    padding: 2rem 7vw 3rem 7vw;
     box-sizing: border-box;
 }
 
@@ -606,6 +624,7 @@ body {
 
 .register-container input {
     width: 100%;
+    min-width: 0;          /* Ajouté : évite le rétrécissement excessif */
     padding: 0.3rem;
     border: 2px solid #12E4FC;
     border-radius: 10px;
@@ -613,6 +632,7 @@ body {
     color: #ffffff;
     font-family: 'Oxanium', sans-serif;
     font-size: 14px;
+    box-sizing: border-box; /* Ajouté : padding inclus dans la largeur */
 }
 
 .register-btn {
@@ -626,13 +646,8 @@ body {
     border: 2px solid #000000;
     border-radius: 10px;
     cursor: pointer;
-}
-
-.register-btn:hover {
-    background-color: #000000;
-    color: #12E4FC;
-    border: 2px solid #12E4FC;
-    transition: background-color 0.3s ease;
+    min-width: 120px;      /* Ajouté : bouton jamais trop petit */
+    max-width: 100%;
 }
 
 .register-container .checkbox {
@@ -644,4 +659,190 @@ body {
     color: #12E4FC;
     text-align: center;
     display: block;
+}
+
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.alert-success {
+    color: #207a3c;
+    background: #d4f8e5;
+    border: 1px solid #b6eacb;
+}
+
+.alert-danger {
+    color: #a94442;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+@media screen and (max-width: 900px) {
+    .cart-container table {
+        border: none;
+        padding: 16px 32px 16px 32px;
+    }
+    
+    .cart-container table,
+    .cart-container thead,
+    .cart-container tbody,
+    .cart-container tr {
+        display: block;
+        width: 100%;
+    }
+
+    .cart-container thead {
+        display: none; /* Cache les en-têtes pour mobile */
+    }
+
+    .cart-container tr {
+        margin-bottom: 2rem;
+        border: 2px solid #12E4FC;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 1rem 0.5rem;
+    }
+
+    .cart-container td {
+        display: flex;
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0.5rem 0;
+        border: none;
+        text-align: left;
+        font-size: 1rem;
+    }
+
+    .cart-container td:before {
+        content: attr(data-label);
+        flex-basis: 40%;
+        color: #12E4FC;
+        font-weight: bold;
+        margin-right: 1rem;
+        min-width: 110px;
+        font-family: 'Oxanium', sans-serif;
+    }
+
+    .cart-container td img {
+        max-width: 80px;
+        height: auto;
+        margin-right: 1rem;
+    }
+
+    .item-btns {
+        flex-direction: row;
+        gap: 0.5rem;
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .payment-container {
+        width: 85vw;
+        min-width: 0;
+        max-width: 600px;
+        height: 300px;
+        margin: 2rem auto;
+        padding: 1rem 1vw;
+    }
+
+    .user-orders-container {
+        width: 100%;
+        padding: 2rem 0 2rem 0;
+    }
+
+    .order-container {
+        width: 95vw;
+        min-width: 0;
+        max-width: 600px;
+        margin: 0 auto 2rem auto;
+        padding: 1rem 0.5rem;
+        box-sizing: border-box;
+    }
+
+    .order-meta {
+        font-size: 15px;
+        display: flex;
+        flex-direction: row;      /* <-- ligne au lieu de colonne */
+        gap: 0.5rem;
+        align-items: center;
+        flex-wrap: wrap;          /* Permet le retour à la ligne si trop long */
+    }
+
+    .orders-table,
+    .orders-table-details {
+        width: 100%;
+        display: block;
+        border: none;
+    }
+
+    .orders-table tr,
+    .orders-table-details tr {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 1rem;
+        background: none;
+        box-shadow: none;
+    }
+
+    .orders-table td,
+    .orders-table-details td {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0.5rem 0;
+        border: none;
+        text-align: center;
+        font-size: 1rem;
+        background: none;
+    }
+
+    .orders-table .order-img img,
+    .orders-table-details .order-img img {
+        max-width: 100px;
+        max-height: 100px;
+        margin: 0 auto 0.5rem auto;
+        display: block;
+    }
+
+    .order-separator {
+        width: 95vw;
+        margin: 1.5rem auto;
+    }
+
+    .commands-title {
+        font-size: 24px;
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .toggle-details {
+        display: block;
+        margin: 0.5rem auto 1.5rem auto;
+        font-size: 1.2rem;
+        padding: 0.3rem 1.2rem;
+        border-radius: 8px;
+        border: 1px solid #12E4FC;
+        background: #12E4FC;
+        color: #000;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .toggle-details:hover {
+        background: #000;
+        color: #12E4FC;
+    }
 }

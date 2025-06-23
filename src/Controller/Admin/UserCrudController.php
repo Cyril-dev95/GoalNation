@@ -22,7 +22,6 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             TextField::new('username'),
-            TextField::new('password')->setFormType(PasswordType::class), // Ajouter le champ de mot de passe
             TextField::new('first_name'),
             TextField::new('last_name'),
             EmailField::new('email'),

@@ -1,9 +1,21 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/products.css') }}">
+{% endblock %}
+
 {% set sizes = sizes|default([]) %}
 {% set brands = brands|default([]) %}
 {% set teams = teams|default([]) %}
 {% set clubs = clubs|default([]) %}
 <form id="filter-form" action="" method="get">
-    <div>
+
+    <section>
+        <label><strong>Prix</strong></label>
+        <input type="range" id="price-range" name="price" min="0" max="500" step="10" value="{{ price|default(0) }}">
+        <span id="price-value">{{ price|default(0) }}€</span>
+    </section>
+
+    <section>
+        <label><strong>Taille</strong></label>
         <label>
             <input type="checkbox" name="sizes[]" value="S" {% if 'S' in sizes %}checked{% endif %}> {# Case à cocher pour la taille S, cochée si 'S' est dans les tailles sélectionnées #}
             S
@@ -48,16 +60,10 @@
             <input type="checkbox" name="sizes[]" value="14-16ans" {% if '14-16ans' in sizes %}checked{% endif %}>
             14-16 ans
         </label>
-    </div>
+    </section>
 
-    <div>
-        <label for="price-range">Prix:</label> {# Label pour le champ de sélection de la plage de prix #}
-        <input type="range" id="price-range" name="price" min="0" max="500" step="10" value="{{ price|default(0) }}"> {# Champ de sélection de la plage de prix, avec une valeur par défaut de 0 #}
-        <span id="price-value">{{ price|default(0) }}€</span> {# Affiche la valeur actuelle de la plage de prix #}
-    </div>
-
-    <div>
-        <label>Pointure:</label> {# Label pour les tailles de chaussures #}
+    <section>
+        <label><strong>Pointure</strong></label> {# Label pour les tailles de chaussures #}
         {% for size in [37, 38, 39, 40, 41, 42, 43, 44, 45, 46] %} {# Boucle sur les tailles de chaussures disponibles #}
             <label>
                 <input type="checkbox" name="sizes[]" value="{{ size }}" {% if size in sizes %}checked{% endif %}> {# Case à cocher pour chaque taille de chaussure, cochée si la taille est sélectionnée #}
@@ -66,38 +72,40 @@
         {% endfor %}
         <label>
             <input type="checkbox" name="sizes[]" value="35-38" {% if '35-38' in sizes %}checked{% endif %}>
-                35-38
-            </label>
+            35-38
+        </label>
+        <label>
             <input type="checkbox" name="sizes[]" value="39-42" {% if '39-42' in sizes %}checked{% endif %}>
-                39-42
-            </label>
+            39-42
+        </label>
+        <label>
             <input type="checkbox" name="sizes[]" value="43-46" {% if '43-46' in sizes %}checked{% endif %}>
-                43-46
-            </label>
-    </div>
+            43-46
+        </label>
+    </section>
 
-    <div>
-        <label>Marques:</label> {# Label pour les marques #}
-        {% for brand in ['Puma', 'Adidas', 'Nike'] %}
+    <section>
+        <label><strong>Marques</strong></label> {# Label pour les marques #}
+        {% for brand in ['Puma', 'Adidas', 'Nike', 'Kappa', 'EA7'] %}
             <label>
                 <input type="checkbox" name="brands[]" value="{{ brand }}" {% if brand in brands %}checked{% endif %}>
                 {{ brand }}
             </label>
         {% endfor %}
-    </div>
+    </section>
 
-    <div>
-        <label>Championnats:</label> {# Label pour les championnats #}
+    <section>
+        <label><strong>Championnats</strong></label> {# Label pour les championnats #}
         {% for team in ['Ligue 1', 'Premier League', 'La Liga', 'Bundesliga', 'Serie A'] %} {# Boucle sur les championnats disponibles #}
             <label>
                 <input type="checkbox" name="teams[]" value="{{ team }}" {% if team in teams %}checked{% endif %}> {# Case à cocher pour chaque championnat, cochée si le championnat est sélectionné #}
                 {{ team }}
             </label>
         {% endfor %}
-    </div>
+    </section>
 
-    <div>
-        <label>Équipes :</label>
+    <section>
+        <label><strong>Équipes</strong></label>
         {% for club in [
             'Olympique de Marseille', 'Olympique Lyonnais', 'Paris Saint Germain', 'Lens', 'AS Monaco',
             'Real Madrid', 'FC Barcelone', 'Atlético Madrid',
@@ -110,5 +118,5 @@
                 {{ club }}
             </label>
         {% endfor %}
-    </div>
+    </section>
 </form> {# Fin du formulaire de filtrage des produits #}

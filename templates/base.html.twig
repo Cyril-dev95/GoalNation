@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" type="image/webp" href="{{ asset('images/logo-offi.webp') }}">
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -12,24 +13,25 @@
     {% endblock %}
 </head>
 <body>
-    <div class="header">
+    <header class="header">
         <nav id="navbar">
-            <a href="{{ path('app_home')}}"><img id="home-logo-offi" src="{{ asset('images/logo-offi.webp') }}" alt=""></a>
+            <a href="{{ path('app_home')}}"><img id="home-logo-offi" src="{{ asset('images/logo-offi.webp') }}" alt="Logo officiel GoalNation"></a>
             <form action="{{ path('app_products_search') }}" method="get" class="navbar-search">
                 <input type="text" name="q" id="search-input" placeholder="Rechercher un produit" value="{{ query|default('') }}">
                 <div id="suggestions" class="suggestions"></div>
             </form>
             <div class="user-info">
                 {% if app.user %}
-                    <a href="{{ path('app_cart') }}"><img id="home-cart-icon" src="{{ asset('images/cart-icon.webp') }}" alt=""></a>
-                    <a href="{{ path('user_personal_info') }}"><img id="home-avatar-icon" src="{{ asset('images/avatar-icon.webp') }}" alt=""></a>
+                    <a href="{{ path('app_cart') }}"><img id="home-cart-icon" src="{{ asset('images/cart-icon.webp') }}" alt="Voir le panier"></a>
+                    <a href="{{ path('user_personal_info') }}"><img id="home-avatar-icon" src="{{ asset('images/avatar-icon.webp') }}" alt="Accéder à mon profil"></a>
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
                     <a href="{{ path('app_login') }}">Connexion</a>
                     <a href="{{ path('app_register') }}">S'inscrire</a>
                 {% endif %}
             </div>
         </nav>
-        <div class="nav-global">
+        <nav class="nav-global" aria-label="Navigation principale">
             <div class="nav-items-content">
                 <ul class="nav-items">
                     <li><a href="{{ path('app_home') }}">Accueil</a></li>
@@ -40,8 +42,8 @@
                     <li><a href="{{ path('app_news') }}">Actus</a></li>
                 </ul>
             </div>
-        </div>
-        <div class="nav-global">
+        </nav>
+        <nav class="nav-global" aria-label="Sous-navigation">
             <div class="sub-navs-container">
                 <ul class="sub-nav" id="homme-sub-nav">
                     <li><a href="{{ path('app_products_homme_maillots') }}">Maillots</a></li>
@@ -69,63 +71,63 @@
                     <li><a href="{{ path('app_products_championship', {championship: 'Bundesliga'}) }}">Bundesliga</a></li>
                 </ul>
             </div>
-        </div>
-    </div>
-    {% block body %}{% endblock %}
+        </nav>
+    </header>
+
+    <main>
+        {% block body %}{% endblock %}
+    </main>
 
     <hr class="separator">
 
     <footer>
         <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-nav-categories">
-                    <div class="footer-category">
-                        <a href="#" id="homme-link-footer" class="footer-category-title">Homme</a>
-                        <ul class="footer-sub-nav">
-                            <li><a href="{{ path('app_products_homme_maillots') }}">Maillots</a></li>
-                            <li><a href="{{ path('app_products_homme_shorts') }}">Shorts</a></li>
-                            <li><a href="{{ path('app_products_homme_chaussettes') }}">Chaussettes</a></li>
-                            <li><a href="{{ path('app_products_homme_gardien') }}">Gardiens</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-category">
-                        <a href="#" id="femme-link-footer" class="footer-category-title">Femme</a>
-                        <ul class="footer-sub-nav">
-                            <li><a href="{{ path('app_products_femme_maillots') }}">Maillots</a></li>
-                            <li><a href="{{ path('app_products_femme_shorts') }}">Shorts</a></li>
-                            <li><a href="{{ path('app_products_femme_chaussettes') }}">Chaussettes</a></li>
-                            <li><a href="{{ path('app_products_femme_gardienne') }}">Gardiennes</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-category">
-                        <a href="#" id="enfant-link-footer" class="footer-category-title">Enfant</a>
-                        <ul class="footer-sub-nav">
-                            <li><a href="{{ path('app_products_enfant_maillots') }}">Maillots</a></li>
-                            <li><a href="{{ path('app_products_enfant_shorts') }}">Shorts</a></li>
-                            <li><a href="{{ path('app_products_enfant_chaussettes') }}">Chaussettes</a></li>
-                            <li><a href="{{ path('app_products_enfant_gardien') }}">Gardiens</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-category">
-                        <a href="#" id="equipes-link-footer" class="footer-category-title">Équipes</a>
-                        <ul class="footer-sub-nav">
-                            <li><a href="{{ path('app_products_championship', {championship: 'Ligue 1'}) }}">Ligue 1</a></li>
-                            <li><a href="{{ path('app_products_championship', {championship: 'Premier League'}) }}">Premier League</a></li>
-                            <li><a href="{{ path('app_products_championship', {championship: 'La Liga'}) }}">La Liga</a></li>
-                            <li><a href="{{ path('app_products_championship', {championship: 'Serie A'}) }}">Serie A</a></li>
-                            <li><a href="{{ path('app_products_championship', {championship: 'Bundesliga'}) }}">Bundesliga</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-end">
-                    <ul>
-                        <li><a href="#">Conditions générales de ventes</a></li>
-                        <li><a href="#">Politique de confidentialité</a></li>
-                        <li><a href="#">Mentions légales</a></li>
-                        <li>2025 © Copyright</li>
-
+            <section class="footer-nav-categories">
+                <article class="footer-category">
+                    <a href="#" id="homme-link-footer" class="footer-category-title">Homme</a>
+                    <ul class="footer-sub-nav">
+                        <li><a href="{{ path('app_products_homme_maillots') }}">Maillots</a></li>
+                        <li><a href="{{ path('app_products_homme_shorts') }}">Shorts</a></li>
+                        <li><a href="{{ path('app_products_homme_chaussettes') }}">Chaussettes</a></li>
+                        <li><a href="{{ path('app_products_homme_gardien') }}">Gardiens</a></li>
                     </ul>
-                </div>
+                </article>
+                <article class="footer-category">
+                    <a href="#" id="femme-link-footer" class="footer-category-title">Femme</a>
+                    <ul class="footer-sub-nav">
+                        <li><a href="{{ path('app_products_femme_maillots') }}">Maillots</a></li>
+                        <li><a href="{{ path('app_products_femme_shorts') }}">Shorts</a></li>
+                        <li><a href="{{ path('app_products_femme_chaussettes') }}">Chaussettes</a></li>
+                        <li><a href="{{ path('app_products_femme_gardienne') }}">Gardiennes</a></li>
+                    </ul>
+                </article>
+                <article class="footer-category">
+                    <a href="#" id="enfant-link-footer" class="footer-category-title">Enfant</a>
+                    <ul class="footer-sub-nav">
+                        <li><a href="{{ path('app_products_enfant_maillots') }}">Maillots</a></li>
+                        <li><a href="{{ path('app_products_enfant_shorts') }}">Shorts</a></li>
+                        <li><a href="{{ path('app_products_enfant_chaussettes') }}">Chaussettes</a></li>
+                        <li><a href="{{ path('app_products_enfant_gardien') }}">Gardiens</a></li>
+                    </ul>
+                </article>
+                <article class="footer-category">
+                    <a href="#" id="equipes-link-footer" class="footer-category-title">Équipes</a>
+                    <ul class="footer-sub-nav">
+                        <li><a href="{{ path('app_products_championship', {championship: 'Ligue 1'}) }}">Ligue 1</a></li>
+                        <li><a href="{{ path('app_products_championship', {championship: 'Premier League'}) }}">Premier League</a></li>
+                        <li><a href="{{ path('app_products_championship', {championship: 'La Liga'}) }}">La Liga</a></li>
+                        <li><a href="{{ path('app_products_championship', {championship: 'Serie A'}) }}">Serie A</a></li>
+                        <li><a href="{{ path('app_products_championship', {championship: 'Bundesliga'}) }}">Bundesliga</a></li>
+                    </ul>
+                </article>
+            </section>
+            <div class="footer-end">
+                <ul>
+                    <li><a href="{{ path('app_cgv') }}">Conditions générales de ventes</a></li>
+                    <li><a href="{{ path('app_confidentialite') }}">Politique de confidentialité</a></li>
+                    <li><a href="{{ path('app_mentions_legales') }}">Mentions légales</a></li>
+                    <li>2025 © Copyright</li>
+                </ul>
             </div>
         </div>
     </footer>

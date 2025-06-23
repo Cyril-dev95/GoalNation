@@ -1,66 +1,46 @@
-// Exécuter le code lorsque le DOM est complètement chargé
 document.addEventListener('DOMContentLoaded', function() {
     // Récupérer les éléments du DOM nécessaires pour la recherche et le filtrage
-    const searchInput = document.getElementById('search-input'); // Champ de saisie de recherche
-    const suggestionsBox = document.getElementById('suggestions'); // Boîte de suggestions
-    const filterForm = document.getElementById('filter-form'); // Formulaire de filtrage
-    const productsList = document.getElementById('products-list'); // Liste des produits
-    const priceRange = document.getElementById('price-range'); // Curseur de plage de prix
-    const priceValue = document.getElementById('price-value'); // Affichage de la valeur du prix
-
-    // Navigation réactive
-    const hommeLink = document.getElementById('homme-link'); // Lien pour la section homme
-    const hommeSubNav = document.getElementById('homme-sub-nav'); // Sous-navigation pour la section homme
-    const femmeLink = document.getElementById('femme-link'); // Lien pour la section femme
-    const femmeSubNav = document.getElementById('femme-sub-nav'); // Sous-navigation pour la section femme
-    const enfantLink = document.getElementById('enfant-link'); // Lien pour la section enfant
-    const enfantSubNav = document.getElementById('enfant-sub-nav'); // Sous-navigation pour la section enfant
-    const equipesLink = document.getElementById('equipes-link'); // Lien pour la section équipes
-    const equipesSubNav = document.getElementById('equipes-sub-nav'); // Sous-navigation pour la section équipes
+    const searchInput = document.getElementById('search-input');
+    const suggestionsBox = document.getElementById('suggestions');
+    const filterForm = document.getElementById('filter-form');
+    const productsList = document.getElementById('products-list');
+    const priceRange = document.getElementById('price-range');
+    const priceValue = document.getElementById('price-value');
 
     // Suggestions de recherche
     if (searchInput && suggestionsBox) {
-        // Ajouter un écouteur d'événement à l'élément de saisie de recherche pour l'événement 'input'
         searchInput.addEventListener('input', function() {
-            // Obtenir la valeur actuelle de la saisie de recherche
             const query = searchInput.value;
-
-            // Vérifier si la longueur de la requête est supérieure ou égale à 2 caractères
             if (query.length >= 2) {
-                // Récupérer les suggestions du serveur en fonction de la requête
-                fetch(`/products/suggestions?q=${encodeURIComponent(query)}`)
-                    .then(response => response.json()) // Analyser la réponse JSON
+                fetch(`/produits/suggestions?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
                     .then(data => {
-                        // Effacer les suggestions actuelles
                         suggestionsBox.innerHTML = '';
-                        // Itérer sur les données (suggestions) reçues du serveur
                         data.forEach(item => {
-                            // Créer un nouvel élément div pour chaque suggestion
                             const suggestionItem = document.createElement('div');
-                            // Ajouter la classe 'suggestion-item' à l'élément div
                             suggestionItem.classList.add('suggestion-item');
-                            // Définir le HTML interne de l'élément div pour inclure un lien avec les détails de la suggestion
                             suggestionItem.innerHTML = `
-                                <a href="/products/${item.id}">
-                                    <img src="/images/${item.imageUrl}.webp" alt="${item.name}" style="max-width: 6vw;">
-                                    ${item.name}
+                                <a href="/produits/${item.id}" class="suggestion-link">
+                                    <div class="suggestion-img-wrapper">
+                                        <img src="/images/${item.imageUrl}.webp" alt="${item.name}" class="suggestion-img">
+                                    </div>
+                                    <div class="suggestion-info">
+                                        <span class="suggestion-name">${item.name}</span>
+                                        ${item.team ? `<span class="suggestion-team">${item.team}</span>` : ''}
+                                        ${item.price ? `<span class="suggestion-price">${item.price}€</span>` : ''}
+                                    </div>
                                 </a>
                             `;
-                            // Ajouter l'élément de suggestion à la boîte de suggestions
                             suggestionsBox.appendChild(suggestionItem);
                         });
                     });
             } else {
-                // Si la longueur de la requête est inférieure ou égale à 2, effacer la boîte de suggestions
                 suggestionsBox.innerHTML = '';
             }
         });
 
-        // Ajouter un écouteur d'événement au document pour l'événement 'click'
         document.addEventListener('click', function(event) {
-            // Vérifier si la cible de l'événement de clic n'est pas l'élément de saisie de recherche ou la boîte de suggestions
             if (!searchInput.contains(event.target) && !suggestionsBox.contains(event.target)) {
-                // Effacer la boîte de suggestions
                 suggestionsBox.innerHTML = '';
             }
         });
@@ -89,11 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Mettre à jour l'affichage de la valeur du prix et déclencher le filtrage en temps réel lors du changement de la plage de prix
         if (priceRange && priceValue) {
-            priceRange.addEventListener('input', function() {
-                // Mettre à jour l'affichage de la valeur du prix
-                priceValue.textContent = `${priceRange.value}€`;
-                // Déclencher l'événement 'change' sur le formulaire de filtrage
+            // Utilisation du debounce pour éviter les requêtes multiples
+            const debouncedPriceChange = debounce(function() {
                 filterForm.dispatchEvent(new Event('change'));
+            }, 300);
+
+            priceRange.addEventListener('input', function() {
+                priceValue.textContent = `${priceRange.value}€`;
+                debouncedPriceChange();
             });
         }
     }
@@ -106,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (header) {
         header.addEventListener('mouseleave', hideAllSubNavs);
-    }    
+    }
 
     function toggleSubNav(linkId, subNavId) {
         const link = document.getElementById(linkId);
@@ -115,11 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!link || !subNav) return;
 
         link.addEventListener("mouseenter", function(e) {
-            // Ferme toutes les autres sous-nav
             document.querySelectorAll('.sub-nav').forEach(nav => {
                 if (nav !== subNav) nav.style.display = 'none';
             });
-            // Affiche celle-ci
             subNav.style.display = 'block';
         });
     }
@@ -129,13 +110,13 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleSubNav('enfant-link', 'enfant-sub-nav');
     toggleSubNav('equipes-link', 'equipes-sub-nav');
 
-    // Clique en dehors pour fermer
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.nav-item') && !e.target.closest('.sub-nav')) {
             document.querySelectorAll('.sub-nav').forEach(nav => nav.style.display = 'none');
         }
     });
 
+    // Initialiser le carrousel de cartes
     function initCardCarousel(carouselSelector, trackSelector, leftSelector, rightSelector, visibleCards = 3) {
         const carousel = document.querySelector(carouselSelector);
         const track = document.querySelector(trackSelector);
@@ -147,16 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let cards = Array.from(track.children);
         const totalCards = cards.length;
 
-        // Clone les dernières et premières cards pour le loop
         for (let i = 0; i < visibleCards; i++) {
-            track.appendChild(cards[i].cloneNode(true)); // clones début à la fin
-            track.insertBefore(cards[totalCards - 1 - i].cloneNode(true), track.firstChild); // clones fin au début
+            track.appendChild(cards[i].cloneNode(true));
+            track.insertBefore(cards[totalCards - 1 - i].cloneNode(true), track.firstChild);
         }
 
-        // Mise à jour de la liste des cards après clonage
         cards = Array.from(track.children);
 
-        let currentIndex = visibleCards; // On commence sur la vraie première card
+        let currentIndex = visibleCards;
 
         function getCardWidth() {
             const cardWidth = cards[0].offsetWidth;
@@ -173,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentIndex < cards.length - visibleCards) {
                 currentIndex++;
                 updateCarousel();
-                // Si on arrive sur un clone, reset après la transition
                 if (currentIndex === cards.length - visibleCards) {
                     setTimeout(() => {
                         currentIndex = visibleCards;
@@ -187,7 +165,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentIndex > 0) {
                 currentIndex--;
                 updateCarousel();
-                // Si on arrive sur un clone, reset après la transition
                 if (currentIndex === 0) {
                     setTimeout(() => {
                         currentIndex = cards.length - visibleCards * 2;
@@ -198,8 +175,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         window.addEventListener('resize', () => updateCarousel(false));
-
-        // Init
         updateCarousel(false);
     }
 
@@ -209,4 +184,42 @@ document.addEventListener('DOMContentLoaded', function() {
     initCardCarousel('.ventes-carousel', '.ventes-track', '.ventes-left', '.ventes-right', 3);
     // Actualités
     initCardCarousel('.news-carousel', '.news-track', '.news-left', '.news-right', 3);
+
+    ['homme-link', 'femme-link', 'enfant-link', 'equipes-link'].forEach(id => {
+        const link = document.getElementById(id);
+        if (link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+            });
+        }
+    });
+
+    ['homme-link-footer', 'femme-link-footer', 'enfant-link-footer', 'equipes-link-footer'].forEach(id => {
+        const link = document.getElementById(id);
+        if (link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+            });
+        }
+    });
+
+    // Gestion du filtre responsive (bouton à partir de 1130px)
+    const openFilterBtn = document.getElementById('open-filter-btn');
+    if (openFilterBtn && filterForm) {
+        openFilterBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            filterForm.classList.toggle('open');
+        });
+
+        // Fermer le filtre si on clique en dehors
+        document.addEventListener('click', function(e) {
+            if (
+                filterForm.classList.contains('open') &&
+                !filterForm.contains(e.target) &&
+                e.target !== openFilterBtn
+            ) {
+                filterForm.classList.remove('open');
+            }
+        });
+    }
 });

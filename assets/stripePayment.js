@@ -51,7 +51,6 @@ document.getElementById('payment-form').addEventListener('submit', async (e) => 
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                alert('Commande enregistrée avec succès !');
                 window.location.href = '/orders';
             } else {
                 alert(data.message || 'Erreur lors de l\'enregistrement de la commande');

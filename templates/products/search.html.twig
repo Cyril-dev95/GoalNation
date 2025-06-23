@@ -1,39 +1,57 @@
-{% extends 'base.html.twig' %} {# Étend le template de base 'base.html.twig' #}
+{% extends 'base.html.twig' %}
 
-{% block title %}Produits{% endblock %} {# Définit le titre de la page #}
+{% block title %}Produits{% endblock %}
 
-{% block body %} {# Début du bloc 'body' #}
-    {% set sizes = sizes|default([]) %}
-    {% include 'products/filter_form.html.twig' with {
-        'brands': brands|default([]),
-        'sizes': sizes|default([]),
-        'teams': teams|default([]),
-        'clubs': clubs|default([]),
-        'price': price|default(0)
-    } %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/products.css') }}">
+{% endblock %}
 
-    <h1>Produits</h1> {# Titre de la page #}
-
-    <div class="products" id="products-list"> {# Début de la liste des produits #}
-        {% for product in products %}
-            <div class="product">
-                <h2>{{ product.productName }}</h2>
-                {% if product.imageUrl %}
-                    <img src="{{ asset('images/' ~ product.imageUrl ~ '.webp') }}" alt="{{ product.productName }}" style="max-width: 200px;">
+{% block body %}
+    <main class="products-layout">
+        <button id="open-filter-btn" class="filter-toggle-btn">
+            <img src="{{ asset('images/icons8-filtre-100.png') }}" alt="Filtrer" />
+            <span class="filter-btn-text">Filtres</span>
+        </button>
+        <aside>
+            {% set sizes = sizes|default([]) %}
+            {% include 'products/filter_form.html.twig' with {
+                'brands': brands|default([]),
+                'sizes': sizes|default([]),
+                'teams': teams|default([]),
+                'clubs': clubs|default([]),
+                'price': price|default(0)
+            } %}
+        </aside>
+        <section class="products-content">
+            <h1>Produits</h1>
+            <section class="products" id="products-list">
+                {% for product in products %}
+                    <article class="product">
+                        {% if product.imageUrl %}
+                            <img src="{{ asset('images/' ~ product.imageUrl ~ '.webp') }}" alt="{{ product.productName }}" style="max-width: 250px;">
+                        {% else %}
+                            <p>Aucune image disponible</p>
+                        {% endif %}
+                        <div class="product-info-row">
+                            <div class="product-info-left">
+                                <p><strong>{{ product.brand }}</strong></p>
+                                <p>{{ product.productName }}</p>
+                            </div>
+                            <div class="product-info-price">
+                                <p>{{ product.price }} €</p>
+                            </div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="{{ path('app_products_show', { id: product.id }) }}" class="btn btn-secondary">Voir Plus</a>
+                            <a href="{{ path('app_cart_add', { id: product.id }) }}" class="btn btn-primary">Ajouter au panier</a>
+                        </div>
+                    </article>
                 {% else %}
-                    <p>Aucune image disponible</p>
-                {% endif %}
-                <div class="product-info" style="margin-top: 10px;">
-                    <p><strong>Marque :</strong> {{ product.brand }}</p>
-                    <p><strong>Nom :</strong> {{ product.productName }}</p>
-                    <p><strong>Prix :</strong> {{ product.price }}€</p>
-                </div>
-
-                <a href="{{ path('app_products_show', { id: product.id }) }}" class="btn btn-secondary">Voir Plus</a>
-                <a href="{{ path('app_cart_add', { id: product.id }) }}" class="btn btn-primary">Ajouter au panier</a>
-            </div>
-        {% else %}
-            <p>Aucun produit trouvé pour les critères sélectionnés.</p>
-        {% endfor %}
-    </div> {# Fin de la liste des produits #}
-{% endblock %} {# Fin du bloc 'body' #}
+                    <p>Aucun produit trouvé pour les critères sélectionnés.</p>
+                {% endfor %}
+            </section>
+            {{ knp_pagination_render(products, 'bundles/KnpPaginatorBundle/custom_pagination.html.twig') }}
+        </section>
+    </main>
+{% endblock %}
